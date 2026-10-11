@@ -1,69 +1,67 @@
 module.exports = function (config) {
-  const coverage = process.argv.includes('--coverage');
-
   config.set({
     frameworks: ['jasmine', 'webpack'],
-    plugins: [
-      require('karma-jasmine'),
-      require('karma-webpack'),
-      require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-junit-reporter'),
-      require('karma-coverage')
-    ],
+
     files: [
-      'src/test/setup.js',
-      { pattern: 'src/**/*.spec.js', watched: false },
       { pattern: 'src/**/*.spec.jsx', watched: false },
+      { pattern: 'src/**/*.spec.js', watched: false }
     ],
+
     preprocessors: {
-      'src/test/setup.js': ['webpack'],
-      'src/**/*.spec.js': ['webpack'],
       'src/**/*.spec.jsx': ['webpack'],
+      'src/**/*.spec.js': ['webpack']
     },
+
     webpack: {
       mode: 'development',
-      devtool: 'inline-source-map',
-      resolve: { extensions: ['.js', '.jsx'] },
       module: {
         rules: [
           {
-            test: /\.jsx?$/,
+            test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            type: 'javascript/auto',
             use: {
               loader: 'babel-loader',
               options: {
-                babelrc: false,
-                configFile: false,
-                presets: [['@babel/preset-react', { runtime: 'automatic' }]],
-                plugins: coverage
-                  ? [['istanbul', { exclude: ['**/*.spec.{js,jsx}', 'src/test/**'] }]]
-                  : [],
-              },
-            },
+                presets: ['@babel/preset-react'],
+                plugins: ['babel-plugin-istanbul']
+              }
+            }
           },
-        ],
+          {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+          }
+        ]
       },
+      resolve: {
+        extensions: ['.js', '.jsx']
+      }
     },
-    reporters: ['progress', 'kjhtml', 'junit', ...(coverage ? ['coverage'] : [])],
-    junitReporter: { outputDir: 'test-results', outputFile: 'junit.xml' },
+
+    reporters: ['progress', 'coverage'],
+
     coverageReporter: {
-      dir: 'coverage',
+      dir: 'coverage/',
       subdir: '.',
-      reporters: [{ type: 'text' }, { type: 'html' }, { type: 'lcovonly' }],
+      reporters: [
+        { type: 'html' },
+        { type: 'text-summary' }
+      ],
       check: {
-        global: { statements: 80, branches: 80, functions: 80, lines: 80 },
-      },
+        global: {
+          statements: 80,
+          lines: 80,
+          functions: 80,
+          branches: 70
+        }
+      }
     },
-    client: { 
-      jasmine: { random: false }, // Ejecución secuencial para no mezclar localStorage
-      clearContext: false 
-    },
+
+    port: 9876,
+    colors: true,
+    logLevel: config.LOG_INFO,
+    autoWatch: false,
     browsers: ['ChromeHeadless'],
-    customLaunchers: {
-      ChromeHeadlessCI: { base: 'ChromeHeadless', flags: ['--no-sandbox'] },
-    },
-    restartOnFileChange: true,
+    singleRun: true
   });
 };

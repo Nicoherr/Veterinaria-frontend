@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/18</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">89.47% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>28/28</span>
+                <span class='fraction'>34/38</span>
             </div>
         
             
@@ -87,77 +87,62 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export function validarContacto(data) {
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const validarContacto = (form = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> =&gt; {
   const errores = {};
-  if (!data.nombre || data.nombre.trim() === '') {
-    errores.nombre = 'El nombre es obligatorio.';
-  }
-  if (!data.telefono || data.telefono.trim() === '') {
-    errores.telefono = 'El teléfono es obligatorio.';
-  }
-  if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errores.email = 'El correo electrónico no es válido.';
-  }
-  if (!data.asunto || data.asunto.trim() === '') {
-    errores.asunto = 'El asunto es obligatorio.';
-  }
-  if (!data.mensaje || data.mensaje.trim() === '') {
-    errores.mensaje = 'El mensaje es obligatorio.';
-  }
-  return errores;
-}
+  const nombre = form &amp;&amp; typeof form.nombre === 'string' ? form.nombre.trim() : '';
+  const email = form &amp;&amp; typeof form.email === 'string' ? form.email.trim() : '';
+  const telefono = form &amp;&amp; typeof form.telefono === 'string' ? form.telefono.trim() : '';
+  const mensaje = form &amp;&amp; typeof form.mensaje === 'string' ? form.mensaje.trim() : '';
 &nbsp;
-export function validarLogin(email, password) {
-  const errores = {};
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errores.email = 'El correo electrónico no es válido.';
-  }
-  if (!password || password.length &lt; 4) {
-    errores.password = 'La contraseña debe tener al menos 4 caracteres.';
-  }
+  if (!nombre) errores.nombre = 'El nombre es requerido';
+  if (!email) errores.email = 'El email es requerido';
+  if (!telefono) errores.telefono = 'El teléfono es requerido';
+  if (!mensaje) errores.mensaje = 'El mensaje es requerido';
+&nbsp;
   return errores;
-}</pre></td></tr></table></pre>
+};
+&nbsp;
+export const validarLogin = (form = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> =&gt; {
+  const errores = {};
+  const email = form &amp;&amp; typeof form.email === 'string' ? form.email.trim() : <span class="branch-1 cbranch-no" title="branch not covered" >'';</span>
+  const password = form &amp;&amp; typeof form.password === 'string' ? form.password.trim() : <span class="branch-1 cbranch-no" title="branch not covered" >'';</span>
+&nbsp;
+  if (!email) errores.email = 'El email es requerido';
+  if (!password) errores.password = 'La contraseña es requerida';
+&nbsp;
+  return errores;
+};</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-10T03:11:47.380Z
+                at 2026-10-11T02:44:38.488Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -1,14 +1,14 @@
-import { validarContacto, validarLogin } from './validaciones.js';
+import { validarLogin, validarContacto } from './validaciones.js';
 
 describe('Pruebas unitarias de Validaciones', () => {
   it('validarLogin debe retornar errores cuando los campos están vacíos', () => {
-    const errores = validarLogin('', '');
+    const errores = validarLogin({ email: '', password: '' });
     expect(errores.email).toBeDefined();
     expect(errores.password).toBeDefined();
   });
 
   it('validarLogin no debe retornar errores si los datos son correctos', () => {
-    const errores = validarLogin('test@vetsm.cl', '123456');
+    const errores = validarLogin({ email: 'admin@vetsm.cl', password: '123' });
     expect(Object.keys(errores).length).toBe(0);
   });
 

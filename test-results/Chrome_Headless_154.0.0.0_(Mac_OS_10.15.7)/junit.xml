@@ -1,29 +1,29 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome Headless 154.0.0.0 (Mac OS 10.15.7)" package="" timestamp="2026-10-10T03:11:47" id="0" hostname="MacBook-Air-de-nicolas.local" tests="17" errors="0" failures="0" time="0.106">
+<testsuite name="Chrome Headless 154.0.0.0 (Mac OS 10.15.7)" package="" timestamp="2026-10-11T02:38:16" id="0" hostname="MacBook-Air-de-nicolas.local" tests="18" errors="0" failures="0" time="0.303">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36"/>
   </properties>
-  <testcase name="Pruebas unitarias de MascotasService debe retornar el listado completo de mascotas" time="0.001" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de MascotasService"/>
+  <testcase name="Pruebas unitarias de MascotasService debe retornar el listado completo de mascotas" time="0.003" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de MascotasService"/>
   <testcase name="Pruebas unitarias de MascotasService debe encontrar una mascota existente por ID" time="0.001" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de MascotasService"/>
   <testcase name="Pruebas unitarias de MascotasService debe retornar null si la mascota no existe" time="0" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de MascotasService"/>
   <testcase name="Pruebas unitarias de MascotasService debe filtrar mascotas por tipo correctamente" time="0" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de MascotasService"/>
-  <testcase name="Pruebas unitarias de MascotasService debe permitir agregar una nueva mascota" time="0.018" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de MascotasService"/>
-  <testcase name="Pruebas del Custom Hook useAuth debe iniciar con estado no autenticado por defecto" time="0.004" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas del Custom Hook useAuth"/>
-  <testcase name="Pruebas del Custom Hook useAuth debe cambiar a autenticado al llamar a login y actualizar localStorage" time="0.001" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas del Custom Hook useAuth"/>
-  <testcase name="Pruebas del Custom Hook useAuth debe alternar el modo oscuro correctamente" time="0.001" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas del Custom Hook useAuth"/>
+  <testcase name="Pruebas unitarias de MascotasService debe permitir agregar una nueva mascota" time="0.028" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de MascotasService"/>
+  <testcase name="Pruebas del Custom Hook useAuth debe cambiar a autenticado al llamar a login y actualizar localStorage" time="0.006" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas del Custom Hook useAuth"/>
+  <testcase name="Pruebas del Custom Hook useAuth debe alternar el modo oscuro correctamente" time="0" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas del Custom Hook useAuth"/>
   <testcase name="Pruebas unitarias de Validaciones validarLogin debe retornar errores cuando los campos están vacíos" time="0" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de Validaciones"/>
   <testcase name="Pruebas unitarias de Validaciones validarLogin no debe retornar errores si los datos son correctos" time="0" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de Validaciones"/>
   <testcase name="Pruebas unitarias de Validaciones validarContacto debe detectar campos incompletos" time="0" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Pruebas unitarias de Validaciones"/>
-  <testcase name="App - Pruebas Integrales y Cobertura Global (+80%) renderiza inicio en modo claro y permite cambiar a modo oscuro" time="0.012" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).App - Pruebas Integrales y Cobertura Global (+80%)"/>
-  <testcase name="App - Pruebas Integrales y Cobertura Global (+80%) navega a nosotros y servicios" time="0.005" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).App - Pruebas Integrales y Cobertura Global (+80%)"/>
-  <testcase name="App - Pruebas Integrales y Cobertura Global (+80%) interactúa con el formulario de contacto" time="0.03" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).App - Pruebas Integrales y Cobertura Global (+80%)"/>
-  <testcase name="App - Pruebas Integrales y Cobertura Global (+80%) ejecuta el inicio de sesión desde la vista de login" time="0.006" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).App - Pruebas Integrales y Cobertura Global (+80%)"/>
-  <testcase name="App - Pruebas Integrales y Cobertura Global (+80%) permite registrar una nueva mascota" time="0.023" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).App - Pruebas Integrales y Cobertura Global (+80%)"/>
-  <testcase name="App - Pruebas Integrales y Cobertura Global (+80%) permite ver y editar los datos personales del perfil" time="0.004" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).App - Pruebas Integrales y Cobertura Global (+80%)"/>
+  <testcase name="Cobertura Global de Páginas y Componentes renderiza la app completa y conmuta modo oscuro" time="0.027" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
+  <testcase name="Cobertura Global de Páginas y Componentes ejecuta Home, Nosotros y Servicios" time="0.009" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
+  <testcase name="Cobertura Global de Páginas y Componentes ejecuta Contacto probando submit vacio y con datos" time="0.013" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
+  <testcase name="Cobertura Global de Páginas y Componentes ejecuta Login probando submit vacio y con datos" time="0.017" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
+  <testcase name="Cobertura Global de Páginas y Componentes ejecuta MisMascotas cubriendo filtros y clicks sin y con sesion" time="0.117" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
+  <testcase name="Cobertura Global de Páginas y Componentes ejecuta NuevaMascota probando error de validacion y exito" time="0.052" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
+  <testcase name="Cobertura Global de Páginas y Componentes ejecuta Citas, FichaClinica, MiPerfil y RegistroVacunas con y sin sesion" time="0.028" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
+  <testcase name="Cobertura Global de Páginas y Componentes ejecuta AdminReportes y AdminUsuarios con y sin sesion" time="0.002" classname="Chrome_Headless_154_0_0_0_(Mac_OS_10_15_7).Cobertura Global de Páginas y Componentes"/>
   <system-out>
     <![CDATA[Chrome Headless 154.0.0.0 (Mac OS 10.15.7) WARN: '⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.'
 ,Chrome Headless 154.0.0.0 (Mac OS 10.15.7) WARN: '⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.'
-,Chrome Headless 154.0.0.0 (Mac OS 10.15.7) WARN: 'Spec 'App - Pruebas Integrales y Cobertura Global (+80%) ejecuta el inicio de sesión desde la vista de login' has no expectations.'
 
 ]]>
   </system-out>

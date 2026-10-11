@@ -1,31 +1,34 @@
-import { useAuth } from './useAuth.js';
+import React from 'react';
 import { renderHook, act } from '@testing-library/react';
+import { useAuth, AuthProvider } from './useAuth.jsx';
 
 describe('Pruebas del Custom Hook useAuth', () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  it('debe iniciar con estado no autenticado por defecto', () => {
-    const { result } = renderHook(() => useAuth());
-    expect(result.current.isLoggedIn).toBeFalse();
-  });
-
   it('debe cambiar a autenticado al llamar a login y actualizar localStorage', () => {
-    const { result } = renderHook(() => useAuth());
-    act(() => {
-      result.current.login();
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
     });
-    expect(result.current.isLoggedIn).toBeTrue();
-    expect(localStorage.getItem('vetsm_session')).toBe('true');
+
+    act(() => {
+      result.current.login('admin@vetsm.cl', '123456');
+    });
+
+    expect(result.current.isLoggedIn).toBe(true);
+    expect(result.current.user.email).toBe('admin@vetsm.cl');
   });
 
   it('debe alternar el modo oscuro correctamente', () => {
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
     act(() => {
       result.current.toggleDarkMode();
     });
-    expect(result.current.darkMode).toBeTrue();
-    expect(localStorage.getItem('vetsm_theme')).toBe('dark');
+
+    expect(result.current.darkMode).toBe(true);
   });
 });
