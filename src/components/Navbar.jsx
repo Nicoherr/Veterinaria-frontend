@@ -1,7 +1,10 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { useCart } from '../hooks/useCart'; // 👈 Importamos useCart
 
 export default function Navbar({ darkMode, toggleDarkMode, isLoggedIn, logout }) {
+  const { totalItems } = useCart(); // 👈 Obtenemos el total de productos
+
   return (
     <nav className={`navbar navbar-expand-lg ${darkMode ? 'navbar-dark bg-dark border-bottom border-secondary' : 'navbar-light bg-white border-bottom shadow-sm'}`}>
       <div className="container">
@@ -34,18 +37,23 @@ export default function Navbar({ darkMode, toggleDarkMode, isLoggedIn, logout })
             </li>
 
             {isLoggedIn && (
-              <>
-                <li className="nav-item">
-                  <NavLink className="nav-link fw-semibold" to="/mascotas">🐾 Mis Mascotas</NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink className="nav-link fw-semibold" to="/perfil">👤 Mis Datos</NavLink>
-                </li>
-              </>
+              <li className="nav-item">
+                <NavLink className="nav-link fw-semibold" to="/perfil">👤 Mi Perfil / Mascotas</NavLink>
+              </li>
             )}
           </ul>
 
           <div className="d-flex align-items-center gap-3">
+            {/* 🛒 Ícono del Carrito con Badge */}
+            <Link to="/carrito" className="btn btn-outline-primary btn-sm position-relative">
+              🛒 Carrito
+              {totalItems > 0 && (
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
+
             <button
               onClick={toggleDarkMode}
               className={`btn btn-sm ${darkMode ? 'btn-outline-light' : 'btn-outline-dark'} rounded-circle`}

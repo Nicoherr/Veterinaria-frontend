@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { agregarMascota } from '../services/mascotasService';
+import { useAuth } from '../hooks/useAuth';
 
-export default function NuevaMascota({ darkMode }) {
+export default function NuevaMascota() {
   const navigate = useNavigate();
+  const { darkMode } = useAuth(); // 👈 Leemos el modo oscuro directamente del contexto
+
   const [formData, setFormData] = useState({
     nombre: '',
     tipo: 'Perro',
@@ -13,8 +16,14 @@ export default function NuevaMascota({ darkMode }) {
   });
   const [error, setError] = useState('');
 
-  const cardClass = darkMode ? 'bg-dark text-white border-secondary' : 'bg-white text-dark border-light-subtle';
-  const inputClass = darkMode ? 'bg-secondary text-white border-secondary' : '';
+  // Estilos coordinados según el modo activo
+  const cardClass = darkMode 
+    ? 'bg-dark text-white border-secondary' 
+    : 'bg-white text-dark border-light-subtle';
+
+  const inputClass = darkMode 
+    ? 'bg-dark text-white border-secondary' 
+    : '';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,7 +46,9 @@ export default function NuevaMascota({ darkMode }) {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h1 className="h2 fw-bold text-primary mb-1">🐾 Registrar Nueva Mascota</h1>
-          <p className="text-secondary m-0">Ingresa los datos del nuevo paciente.</p>
+          <p className={darkMode ? 'text-light-50 m-0' : 'text-secondary m-0'}>
+            Ingresa los datos del nuevo paciente.
+          </p>
         </div>
         <Link to="/mascotas" className="btn btn-outline-secondary btn-sm fw-semibold">
           ← Volver
@@ -46,7 +57,7 @@ export default function NuevaMascota({ darkMode }) {
 
       {error && <div className="alert alert-danger">{error}</div>}
 
-      <div className={`card p-4 shadow ${cardClass}`}>
+      <div className={`card p-4 shadow-sm ${cardClass}`}>
         <form onSubmit={handleSubmit} className="row g-3">
           <div className="col-md-6">
             <label className="form-label fw-semibold">Nombre de la Mascota *</label>

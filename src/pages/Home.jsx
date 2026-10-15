@@ -6,8 +6,8 @@ const Home = () => {
   const { darkMode } = useAuth();
 
   const cardClass = darkMode
-    ? 'h-100 p-4 bg-dark text-white border border-secondary rounded-3 shadow-sm'
-    : 'h-100 p-4 bg-light text-dark border rounded-3 shadow-sm';
+    ? 'h-100 bg-dark text-white border border-secondary rounded-3 shadow-sm overflow-hidden'
+    : 'h-100 bg-light text-dark border rounded-3 shadow-sm overflow-hidden';
 
   const sectionClass = darkMode
     ? 'p-4 border border-secondary rounded-3 bg-dark text-white shadow-sm my-4'
@@ -16,10 +16,20 @@ const Home = () => {
   return (
     <div className="container py-4">
       {/* Banner Principal / Hero */}
-      <div className="p-5 mb-4 bg-primary text-white rounded-3 shadow-sm">
-        <div className="container-fluid py-3">
+      <div 
+        className="p-5 mb-4 text-white rounded-3 shadow-sm position-relative overflow-hidden"
+        style={{
+          backgroundImage: 'url("https://images.pexels.com/photos/6235666/pexels-photo-6235666.jpeg?auto=compress&cs=tinysrgb&w=1200")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '380px'
+        }}
+      >
+        <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+
+        <div className="container-fluid py-3 position-relative" style={{ zIndex: 1 }}>
           <h1 className="display-4 fw-bold">Bienvenido a VetSM</h1>
-          <p className="col-md-9 fs-4">
+          <p className="col-md-9 fs-4 text-light">
             Atención veterinaria integral, profesionales capacitados y la mejor tecnología para el cuidado y bienestar de tus mascotas.
           </p>
           <div className="d-flex gap-3 mt-4">
@@ -33,55 +43,73 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Servicios Destacados */}
+      {/* Servicios Destacados con Imágenes Estables */}
       <div className="row align-items-md-stretch my-5">
         <div className="col-md-4 mb-3">
           <div className={cardClass}>
-            <h3>Consultas Médicas</h3>
-            <p className={darkMode ? 'text-light-50' : 'text-muted'}>
-              Atención general y especializada para perros, gatos y especies pequeñas con diagnósticos precisos.
-            </p>
+            <img 
+              src="https://images.pexels.com/photos/6235228/pexels-photo-6235228.jpeg?auto=compress&cs=tinysrgb&w=600" 
+              alt="Consultas Médicas" 
+              className="w-100"
+              style={{ height: '180px', objectFit: 'cover' }}
+            />
+            <div className="p-4">
+              <h3 className="fw-bold">Consultas Médicas</h3>
+              <p className={darkMode ? 'text-light-50 m-0' : 'text-muted m-0'}>
+                Atención general y especializada para perros, gatos y especies pequeñas con diagnósticos precisos.
+              </p>
+            </div>
           </div>
         </div>
+
         <div className="col-md-4 mb-3">
           <div className={cardClass}>
-            <h3>Vacunación y Desparasitación</h3>
-            <p className={darkMode ? 'text-light-50' : 'text-muted'}>
-              Planes de inmunización al día y control preventivo integral para mantener sana a tu mascota.
-            </p>
+            <img 
+              src="https://images.pexels.com/photos/7469213/pexels-photo-7469213.jpeg?auto=compress&cs=tinysrgb&w=600" 
+              alt="Vacunación y Desparasitación" 
+              className="w-100"
+              style={{ height: '180px', objectFit: 'cover' }}
+            />
+            <div className="p-4">
+              <h3 className="fw-bold">Vacunación y Desparasitación</h3>
+              <p className={darkMode ? 'text-light-50 m-0' : 'text-muted m-0'}>
+                Planes de inmunización al día y control preventivo integral para mantener sana a tu mascota.
+              </p>
+            </div>
           </div>
         </div>
+
         <div className="col-md-4 mb-3">
           <div className={cardClass}>
-            <h3>Urgencias 24/7</h3>
-            <p className={darkMode ? 'text-light-50' : 'text-muted'}>
-              Equipo médico disponible las 24 horas para atender cualquier emergencia clínica de tu mascota.
-            </p>
+            <img 
+              src="https://images.pexels.com/photos/7469224/pexels-photo-7469224.jpeg?auto=compress&cs=tinysrgb&w=600" 
+              alt="Urgencias 24/7" 
+              className="w-100"
+              style={{ height: '180px', objectFit: 'cover' }}
+            />
+            <div className="p-4">
+              <h3 className="fw-bold">Urgencias 24/7</h3>
+              <p className={darkMode ? 'text-light-50 m-0' : 'text-muted m-0'}>
+                Equipo médico disponible las 24 horas para atender cualquier emergencia clínica de tu mascota.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Sección de Ubicación, Dirección y Mapa */}
+      {/* Ubicación y Mapa */}
       <div className={sectionClass}>
         <h2 className="mb-4 text-primary fw-bold">Nuestra Ubicación y Contacto</h2>
         <div className="row">
           <div className="col-md-5 mb-3">
             <h5 className="fw-bold">Centro Clínico VetSM</h5>
             <ul className="list-unstyled mt-3">
+              <li className="mb-2"><strong>📍 Dirección:</strong> Av. Providencia 1234, Santiago, Chile</li>
+              <li className="mb-2"><strong>📞 Teléfono:</strong> +56 2 2345 6789</li>
+              <li className="mb-2"><strong>✉️ Email:</strong> contacto@vetsm.cl</li>
               <li className="mb-2">
-                <strong>📍 Dirección:</strong> Av. Providencia 1234, Santiago, Chile
-              </li>
-              <li className="mb-2">
-                <strong>📞 Teléfono:</strong> +56 2 2345 6789
-              </li>
-              <li className="mb-2">
-                <strong>✉️ Email:</strong> contacto@vetsm.cl
-              </li>
-              <li className="mb-2">
-                <strong>🕒 Horario de Atención:</strong>
-                <br />
-                Lunes a Viernes: 09:00 - 20:00 hrs
-                <br />
+                <strong>🕒 Horario de Atención:</strong><br />
+                Lunes a Viernes: 09:00 - 20:00 hrs<br />
                 Sábados y Domingos: 10:00 - 18:00 hrs (Urgencias 24/7)
               </li>
             </ul>
@@ -90,7 +118,6 @@ const Home = () => {
             </Link>
           </div>
           <div className="col-md-7">
-            {/* Mapa de Google Maps Embedded */}
             <div className="ratio ratio-16x9 rounded overflow-hidden border">
               <iframe
                 title="Ubicacion VetSM"

@@ -1,17 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
 import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+
+// Importamos AuthProvider directamente desde tu archivo useAuth (donde vive el contexto)
 import { AuthProvider } from './hooks/useAuth';
+import { CartProvider } from './context/CartContext';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <HashRouter>
+    <BrowserRouter>
       <AuthProvider>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </AuthProvider>
-    </HashRouter>
+    </BrowserRouter>
   </React.StrictMode>
 );
