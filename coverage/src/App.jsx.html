@@ -148,7 +148,11 @@
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -170,6 +174,8 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -236,7 +242,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
-import { CartProvider } from './context/CartContext';
 &nbsp;
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -250,82 +255,86 @@ import MisMascotas from './pages/MisMascotas';
 import NuevaMascota from './pages/NuevaMascota';
 import MiPerfil from './pages/MiPerfil';
 import Citas from './pages/Citas';
+import FichaClinica from './pages/FichaClinica';
+import Carrito from './pages/Carrito';
 &nbsp;
 export default function App() {
   const { isLoggedIn, logout, darkMode, toggleDarkMode } = useAuth();
 &nbsp;
   return (
-    &lt;CartProvider&gt;
-      &lt;Routes&gt;
+    &lt;Routes&gt;
+      &lt;Route
+        element={
+          &lt;Layout
+            darkMode={darkMode}
+            toggleDarkMode={toggleDarkMode}
+            isLoggedIn={isLoggedIn}
+            logout={logout}
+          /&gt;
+        }
+      &gt;
+        &lt;Route index element={&lt;Home darkMode={darkMode} /&gt;} /&gt;
+        &lt;Route path="nosotros" element={&lt;Nosotros darkMode={darkMode} /&gt;} /&gt;
+        &lt;Route path="servicios" element={&lt;Servicios darkMode={darkMode} /&gt;} /&gt;
+        &lt;Route path="contacto" element={&lt;Contacto darkMode={darkMode} /&gt;} /&gt;
+        &lt;Route path="carrito" element={&lt;Carrito darkMode={darkMode} /&gt;} /&gt;
         &lt;Route
+          path="login"
+          element={isLoggedIn ? &lt;Navigate to="/mascotas" replace /&gt; : &lt;Login darkMode={darkMode} /&gt;}
+        /&gt;
+        &lt;Route
+          path="mascotas"
           element={
-            &lt;Layout
-              darkMode={darkMode}
-              toggleDarkMode={toggleDarkMode}
-              isLoggedIn={isLoggedIn}
-              logout={logout}
-            /&gt;
+            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+              &lt;MisMascotas darkMode={darkMode} /&gt;
+            &lt;/ProtectedRoute&gt;
           }
-        &gt;
-          &lt;Route index element={&lt;Home darkMode={darkMode} /&gt;} /&gt;
-          &lt;Route path="nosotros" element={&lt;Nosotros darkMode={darkMode} /&gt;} /&gt;
-          &lt;Route path="servicios" element={&lt;Servicios darkMode={darkMode} /&gt;} /&gt;
-          &lt;Route path="contacto" element={&lt;Contacto darkMode={darkMode} /&gt;} /&gt;
-&nbsp;
-          &lt;Route
-            path="login"
-            element={
-              isLoggedIn ? &lt;Navigate to="/mascotas" replace /&gt; : &lt;Login darkMode={darkMode} /&gt;
-            }
-          /&gt;
-&nbsp;
-          {/* Rutas Privadas / Protegidas */}
-          &lt;Route
-            path="mascotas"
-            element={
-              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
-                &lt;MisMascotas darkMode={darkMode} /&gt;
-              &lt;/ProtectedRoute&gt;
-            }
-          /&gt;
-          &lt;Route
-            path="mascotas/nueva"
-            element={
-              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
-                &lt;NuevaMascota darkMode={darkMode} /&gt;
-              &lt;/ProtectedRoute&gt;
-            }
-          /&gt;
-          &lt;Route
-            path="perfil"
-            element={
-              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
-                &lt;MiPerfil darkMode={darkMode} /&gt;
-              &lt;/ProtectedRoute&gt;
-            }
-          /&gt;
-          &lt;Route
-            path="citas"
-            element={
-              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
-                &lt;Citas darkMode={darkMode} /&gt;
-              &lt;/ProtectedRoute&gt;
-            }
-          /&gt;
-&nbsp;
-          &lt;Route path="*" element={&lt;Navigate to="/" replace /&gt;} /&gt;
-        &lt;/Route&gt;
-      &lt;/Routes&gt;
-    &lt;/CartProvider&gt;
+        /&gt;
+        &lt;Route
+          path="mascotas/nueva"
+          element={
+            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+              &lt;NuevaMascota darkMode={darkMode} /&gt;
+            &lt;/ProtectedRoute&gt;
+          }
+        /&gt;
+        &lt;Route
+          path="mascotas/:id/ficha"
+          element={
+            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+              &lt;FichaClinica darkMode={darkMode} /&gt;
+            &lt;/ProtectedRoute&gt;
+          }
+        /&gt;
+        &lt;Route
+          path="perfil"
+          element={
+            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+              &lt;MiPerfil darkMode={darkMode} /&gt;
+            &lt;/ProtectedRoute&gt;
+          }
+        /&gt;
+        &lt;Route
+          path="citas"
+          element={
+            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+              &lt;Citas darkMode={darkMode} /&gt;
+            &lt;/ProtectedRoute&gt;
+          }
+        /&gt;
+        &lt;Route path="*" element={&lt;Navigate to="/" replace /&gt;} /&gt;
+      &lt;/Route&gt;
+    &lt;/Routes&gt;
   );
-}</pre></td></tr></table></pre>
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-27T17:10:55.739Z
+                at 2026-10-27T17:37:36.617Z
             </div>
         <script src="../prettify.js"></script>
         <script>

@@ -172,7 +172,34 @@
 <a name='L107'></a><a href='#L107'>107</a>
 <a name='L108'></a><a href='#L108'>108</a>
 <a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,6 +215,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -289,8 +343,8 @@ const Home = () =&gt; {
   const { darkMode } = useAuth();
 &nbsp;
   const cardClass = darkMode
-    ? <span class="branch-0 cbranch-no" title="branch not covered" >'h-100 p-4 bg-dark text-white border border-secondary rounded-3 shadow-sm'</span>
-    : 'h-100 p-4 bg-light text-dark border rounded-3 shadow-sm';
+    ? <span class="branch-0 cbranch-no" title="branch not covered" >'h-100 bg-dark text-white border border-secondary rounded-3 shadow-sm overflow-hidden'</span>
+    : 'h-100 bg-light text-dark border rounded-3 shadow-sm overflow-hidden';
 &nbsp;
   const sectionClass = darkMode
     ? <span class="branch-0 cbranch-no" title="branch not covered" >'p-4 border border-secondary rounded-3 bg-dark text-white shadow-sm my-4'</span>
@@ -299,10 +353,20 @@ const Home = () =&gt; {
   return (
     &lt;div className="container py-4"&gt;
       {/* Banner Principal / Hero */}
-      &lt;div className="p-5 mb-4 bg-primary text-white rounded-3 shadow-sm"&gt;
-        &lt;div className="container-fluid py-3"&gt;
+      &lt;div 
+        className="p-5 mb-4 text-white rounded-3 shadow-sm position-relative overflow-hidden"
+        style={{
+          backgroundImage: 'url("https://images.pexels.com/photos/6235666/pexels-photo-6235666.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '380px'
+        }}
+      &gt;
+        &lt;div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"&gt;&lt;/div&gt;
+&nbsp;
+        &lt;div className="container-fluid py-3 position-relative" style={{ zIndex: 1 }}&gt;
           &lt;h1 className="display-4 fw-bold"&gt;Bienvenido a VetSM&lt;/h1&gt;
-          &lt;p className="col-md-9 fs-4"&gt;
+          &lt;p className="col-md-9 fs-4 text-light"&gt;
             Atención veterinaria integral, profesionales capacitados y la mejor tecnología para el cuidado y bienestar de tus mascotas.
           &lt;/p&gt;
           &lt;div className="d-flex gap-3 mt-4"&gt;
@@ -316,55 +380,73 @@ const Home = () =&gt; {
         &lt;/div&gt;
       &lt;/div&gt;
 &nbsp;
-      {/* Servicios Destacados */}
+      {/* Servicios Destacados con Imágenes Estables */}
       &lt;div className="row align-items-md-stretch my-5"&gt;
         &lt;div className="col-md-4 mb-3"&gt;
           &lt;div className={cardClass}&gt;
-            &lt;h3&gt;Consultas Médicas&lt;/h3&gt;
-            &lt;p className={darkMode ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-light-50' </span>: 'text-muted'}&gt;
-              Atención general y especializada para perros, gatos y especies pequeñas con diagnósticos precisos.
-            &lt;/p&gt;
+            &lt;img 
+              src="https://images.pexels.com/photos/6235228/pexels-photo-6235228.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600" 
+              alt="Consultas Médicas" 
+              className="w-100"
+              style={{ height: '180px', objectFit: 'cover' }}
+            /&gt;
+            &lt;div className="p-4"&gt;
+              &lt;h3 className="fw-bold"&gt;Consultas Médicas&lt;/h3&gt;
+              &lt;p className={darkMode ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-light-50 m-0' </span>: 'text-muted m-0'}&gt;
+                Atención general y especializada para perros, gatos y especies pequeñas con diagnósticos precisos.
+              &lt;/p&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
+&nbsp;
         &lt;div className="col-md-4 mb-3"&gt;
           &lt;div className={cardClass}&gt;
-            &lt;h3&gt;Vacunación y Desparasitación&lt;/h3&gt;
-            &lt;p className={darkMode ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-light-50' </span>: 'text-muted'}&gt;
-              Planes de inmunización al día y control preventivo integral para mantener sana a tu mascota.
-            &lt;/p&gt;
+            &lt;img 
+              src="https://images.pexels.com/photos/7469213/pexels-photo-7469213.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600" 
+              alt="Vacunación y Desparasitación" 
+              className="w-100"
+              style={{ height: '180px', objectFit: 'cover' }}
+            /&gt;
+            &lt;div className="p-4"&gt;
+              &lt;h3 className="fw-bold"&gt;Vacunación y Desparasitación&lt;/h3&gt;
+              &lt;p className={darkMode ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-light-50 m-0' </span>: 'text-muted m-0'}&gt;
+                Planes de inmunización al día y control preventivo integral para mantener sana a tu mascota.
+              &lt;/p&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
+&nbsp;
         &lt;div className="col-md-4 mb-3"&gt;
           &lt;div className={cardClass}&gt;
-            &lt;h3&gt;Urgencias 24/7&lt;/h3&gt;
-            &lt;p className={darkMode ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-light-50' </span>: 'text-muted'}&gt;
-              Equipo médico disponible las 24 horas para atender cualquier emergencia clínica de tu mascota.
-            &lt;/p&gt;
+            &lt;img 
+              src="https://images.pexels.com/photos/7469224/pexels-photo-7469224.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600" 
+              alt="Urgencias 24/7" 
+              className="w-100"
+              style={{ height: '180px', objectFit: 'cover' }}
+            /&gt;
+            &lt;div className="p-4"&gt;
+              &lt;h3 className="fw-bold"&gt;Urgencias 24/7&lt;/h3&gt;
+              &lt;p className={darkMode ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-light-50 m-0' </span>: 'text-muted m-0'}&gt;
+                Equipo médico disponible las 24 horas para atender cualquier emergencia clínica de tu mascota.
+              &lt;/p&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
 &nbsp;
-      {/* Sección de Ubicación, Dirección y Mapa */}
+      {/* Ubicación y Mapa */}
       &lt;div className={sectionClass}&gt;
         &lt;h2 className="mb-4 text-primary fw-bold"&gt;Nuestra Ubicación y Contacto&lt;/h2&gt;
         &lt;div className="row"&gt;
           &lt;div className="col-md-5 mb-3"&gt;
             &lt;h5 className="fw-bold"&gt;Centro Clínico VetSM&lt;/h5&gt;
             &lt;ul className="list-unstyled mt-3"&gt;
+              &lt;li className="mb-2"&gt;&lt;strong&gt;📍 Dirección:&lt;/strong&gt; Av. Providencia 1234, Santiago, Chile&lt;/li&gt;
+              &lt;li className="mb-2"&gt;&lt;strong&gt;📞 Teléfono:&lt;/strong&gt; +56 2 2345 6789&lt;/li&gt;
+              &lt;li className="mb-2"&gt;&lt;strong&gt;✉️ Email:&lt;/strong&gt; contacto@vetsm.cl&lt;/li&gt;
               &lt;li className="mb-2"&gt;
-                &lt;strong&gt;📍 Dirección:&lt;/strong&gt; Av. Providencia 1234, Santiago, Chile
-              &lt;/li&gt;
-              &lt;li className="mb-2"&gt;
-                &lt;strong&gt;📞 Teléfono:&lt;/strong&gt; +56 2 2345 6789
-              &lt;/li&gt;
-              &lt;li className="mb-2"&gt;
-                &lt;strong&gt;✉️ Email:&lt;/strong&gt; contacto@vetsm.cl
-              &lt;/li&gt;
-              &lt;li className="mb-2"&gt;
-                &lt;strong&gt;🕒 Horario de Atención:&lt;/strong&gt;
-                &lt;br /&gt;
-                Lunes a Viernes: 09:00 - 20:00 hrs
-                &lt;br /&gt;
+                &lt;strong&gt;🕒 Horario de Atención:&lt;/strong&gt;&lt;br /&gt;
+                Lunes a Viernes: 09:00 - 20:00 hrs&lt;br /&gt;
                 Sábados y Domingos: 10:00 - 18:00 hrs (Urgencias 24/7)
               &lt;/li&gt;
             &lt;/ul&gt;
@@ -373,7 +455,6 @@ const Home = () =&gt; {
             &lt;/Link&gt;
           &lt;/div&gt;
           &lt;div className="col-md-7"&gt;
-            {/* Mapa de Google Maps Embedded */}
             &lt;div className="ratio ratio-16x9 rounded overflow-hidden border"&gt;
               &lt;iframe
                 title="Ubicacion VetSM"
@@ -397,7 +478,7 @@ export default Home;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-27T17:10:55.739Z
+                at 2026-10-27T17:37:36.617Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -1,81 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
+import MisMascotas from './MisMascotas';
+import Citas from './Citas';
 
-export default function MiPerfil({ darkMode }) {
-  const { user } = useAuth();
-
+export default function MiPerfil() {
+  const { user, darkMode } = useAuth();
+  const [activeTab, setActiveTab] = useState('mascotas');
+  const nombre = user?.nombre || user?.name || user?.usuario || '';
+  const email = user?.email || user?.correo || '';
   const cardClass = darkMode ? 'bg-dark text-white border-secondary' : 'bg-white text-dark border-light-subtle';
-  const inputClass = darkMode ? 'bg-secondary text-white border-secondary' : '';
-  const datos = {
-    nombre: user?.nombre || user?.name || '',
-    rut: user?.rut || '',
-    email: user?.email || '',
-    telefono: user?.telefono || user?.phone || '',
-    direccion: user?.direccion || user?.address || '',
-  };
 
   return (
-    <div className="container py-2" style={{ maxWidth: '750px' }}>
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <div>
-          <h1 className="h2 fw-bold text-primary mb-1">👤 Mis Datos Personales</h1>
-          <p className="text-secondary m-0">Información del tutor y datos de contacto.</p>
-        </div>
-      </div>
-
-      <div className={`card p-4 shadow ${cardClass}`}>
-        <div className="row g-3">
-          <div className="col-md-6">
-            <label className="form-label fw-semibold">Nombre Completo</label>
-            <input
-              type="text"
-              className={`form-control ${inputClass}`}
-              value={datos.nombre}
-              readOnly
-            />
+    <div className="container py-4">
+      <div className={`card shadow-sm mb-4 p-4 ${cardClass}`}>
+        <div className="d-flex align-items-center gap-3">
+          <div
+            className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold fs-3 shadow-sm"
+            style={{ width: '60px', height: '60px', minWidth: '60px' }}
+          >
+            {nombre.charAt(0).toUpperCase()}
           </div>
-
-          <div className="col-md-6">
-            <label className="form-label fw-semibold">RUT</label>
-            <input
-              type="text"
-              className={`form-control ${inputClass}`}
-              value={datos.rut}
-              readOnly
-            />
-          </div>
-
-          <div className="col-md-6">
-            <label className="form-label fw-semibold">Correo Electrónico</label>
-            <input
-              type="email"
-              className={`form-control ${inputClass}`}
-              value={datos.email}
-              readOnly
-            />
-          </div>
-
-          <div className="col-md-6">
-            <label className="form-label fw-semibold">Teléfono de Contacto</label>
-            <input
-              type="text"
-              className={`form-control ${inputClass}`}
-              value={datos.telefono}
-              readOnly
-            />
-          </div>
-
-          <div className="col-12">
-            <label className="form-label fw-semibold">Dirección de Residencia</label>
-            <input
-              type="text"
-              className={`form-control ${inputClass}`}
-              value={datos.direccion}
-              readOnly
-            />
+          <div>
+            <h1 className="h4 fw-bold m-0">{nombre || 'Mi Perfil'}</h1>
+            <p className="m-0 fs-6 text-secondary">{email}</p>
+            {user?.rut && <p className="m-0 small text-secondary">RUT: {user.rut}</p>}
+            {(user?.telefono || user?.phone) && (
+              <p className="m-0 small text-secondary">Teléfono: {user.telefono || user.phone}</p>
+            )}
           </div>
         </div>
       </div>
+
+      <ul className="nav nav-tabs mb-4 border-bottom border-secondary-subtle">
+        <li className="nav-item">
+          <button
+            type="button"
+            className={`nav-link fw-semibold ${activeTab === 'mascotas' ? 'active text-primary fw-bold' : darkMode ? 'text-light' : 'text-secondary'}`}
+            onClick={() => setActiveTab('mascotas')}
+          >
+            🐾 Mis Mascotas
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            type="button"
+            className={`nav-link fw-semibold ${activeTab === 'citas' ? 'active text-primary fw-bold' : darkMode ? 'text-light' : 'text-secondary'}`}
+            onClick={() => setActiveTab('citas')}
+          >
+            📅 Mis Citas
+          </button>
+        </li>
+        <li className="nav-item ms-auto align-self-center">
+          <Link to="/mascotas/nueva" className="btn btn-primary btn-sm">Registrar mascota</Link>
+        </li>
+      </ul>
+
+      {activeTab === 'mascotas' && <MisMascotas darkMode={darkMode} />}
+      {activeTab === 'citas' && <Citas darkMode={darkMode} />}
     </div>
   );
 }

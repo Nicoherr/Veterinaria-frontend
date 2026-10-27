@@ -21,7 +21,6 @@ export default function Contacto() {
       [name]: value,
     }));
 
-    // Limpia el error del campo a medida que el usuario escribe
     if (errores && errores[name]) {
       setErrores((prev) => ({
         ...prev,
@@ -46,22 +45,26 @@ export default function Contacto() {
     }
   };
 
+  const cardClass = darkMode 
+    ? 'bg-dark text-white border-secondary' 
+    : 'bg-white text-dark border-light-subtle';
+
   return (
     <div className="container py-4">
-      <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-6">
-          <div
-            className={`card shadow-sm border-0 ${
-              darkMode ? 'bg-dark text-white border-secondary' : 'bg-white text-dark'
-            }`}
-          >
-            <div className="card-body p-4">
-              <h2 className="card-title text-center fw-bold mb-4 text-primary">
+      <div className="row g-4 align-items-stretch">
+        {/* Formulario de Contacto */}
+        <div className="col-lg-7">
+          <div className={`card shadow-sm border-0 h-100 ${cardClass}`}>
+            <div className="card-body p-4 p-md-5">
+              <h2 className="card-title text-start fw-bold mb-2 text-primary">
                 Contacto VetSM
               </h2>
+              <p className="text-secondary mb-4">
+                ¿Tienes dudas o necesitas agendar una atención? Escríbenos y te responderemos a la brevedad.
+              </p>
 
               {enviado && (
-                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                <div className="alert alert-success alert-dismissible fade show mb-4" role="alert">
                   ¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.
                   <button
                     type="button"
@@ -93,47 +96,49 @@ export default function Contacto() {
                   )}
                 </div>
 
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label fw-semibold">
-                    Correo Electrónico
-                  </label>
-                  <input
-                    type="email"
-                    className={`form-control ${
-                      darkMode ? 'bg-secondary text-white border-secondary' : ''
-                    } ${errores?.email ? 'is-invalid' : ''}`}
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="ejemplo@vetsm.cl"
-                  />
-                  {errores?.email && (
-                    <div className="invalid-feedback d-block">{errores.email}</div>
-                  )}
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="email" className="form-label fw-semibold">
+                      Correo Electrónico
+                    </label>
+                    <input
+                      type="email"
+                      className={`form-control ${
+                        darkMode ? 'bg-secondary text-white border-secondary' : ''
+                      } ${errores?.email ? 'is-invalid' : ''}`}
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="ejemplo@vetsm.cl"
+                    />
+                    {errores?.email && (
+                      <div className="invalid-feedback d-block">{errores.email}</div>
+                    )}
+                  </div>
+
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="telefono" className="form-label fw-semibold">
+                      Teléfono de Contacto
+                    </label>
+                    <input
+                      type="tel"
+                      className={`form-control ${
+                        darkMode ? 'bg-secondary text-white border-secondary' : ''
+                      } ${errores?.telefono ? 'is-invalid' : ''}`}
+                      id="telefono"
+                      name="telefono"
+                      value={formData.telefono}
+                      onChange={handleChange}
+                      placeholder="+56912345678"
+                    />
+                    {errores?.telefono && (
+                      <div className="invalid-feedback d-block">{errores.telefono}</div>
+                    )}
+                  </div>
                 </div>
 
-                <div className="mb-3">
-                  <label htmlFor="telefono" className="form-label fw-semibold">
-                    Teléfono de Contacto
-                  </label>
-                  <input
-                    type="tel"
-                    className={`form-control ${
-                      darkMode ? 'bg-secondary text-white border-secondary' : ''
-                    } ${errores?.telefono ? 'is-invalid' : ''}`}
-                    id="telefono"
-                    name="telefono"
-                    value={formData.telefono}
-                    onChange={handleChange}
-                    placeholder="+56912345678"
-                  />
-                  {errores?.telefono && (
-                    <div className="invalid-feedback d-block">{errores.telefono}</div>
-                  )}
-                </div>
-
-                <div className="mb-3">
+                <div className="mb-4">
                   <label htmlFor="mensaje" className="form-label fw-semibold">
                     Mensaje o Consulta
                   </label>
@@ -153,10 +158,29 @@ export default function Contacto() {
                   )}
                 </div>
 
-                <button type="submit" className="btn btn-primary w-100 fw-bold py-2">
+                <button type="submit" className="btn btn-primary w-100 fw-bold py-2 fs-6">
                   Enviar Mensaje
                 </button>
               </form>
+            </div>
+          </div>
+        </div>
+
+        {/* Imagen Lateral Informativa */}
+        <div className="col-lg-5 d-none d-lg-block">
+          <div className="h-100 rounded-3 overflow-hidden shadow-sm position-relative">
+            <img 
+              src="https://images.pexels.com/photos/6235233/pexels-photo-6235233.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              alt="Atención veterinaria en VetSM" 
+              className="w-100 h-100"
+              style={{ objectFit: 'cover' }}
+            />
+            <div 
+              className="position-absolute bottom-0 start-0 w-100 p-4 text-white"
+              style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.85))' }}
+            >
+              <h4 className="fw-bold m-0">Estamos para ayudarte</h4>
+              <p className="small text-light mb-0">Atención profesional y dedicada a la salud de tus mascotas.</p>
             </div>
           </div>
         </div>

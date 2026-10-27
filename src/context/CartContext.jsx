@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-const CartContext = createContext();
+const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(() => {
@@ -17,25 +17,46 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
   const addToCart = (item) => {
-    setCart((prev) => {
-      const exists = prev.find((i) => i.id === item.id);
+    setCart((previous) => {
+      const exists = previous.find((entry) => entry.id === item.id);
       if (exists) {
-        return prev.map((i) => (i.id === item.id ? { ...i, cantidad: i.cantidad + 1 } : i));
+        return previous.map((entry) =>
+          entry.id === item.id ? { ...entry, cantidad: entry.cantidad + 1 } : entry
+        );
       }
-      return [...prev, { ...item, cantidad: 1 }];
+      return [...previous, { ...item, cantidad: 1 }];
     });
   };
 
   const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    setCart((previous) => previous.filter((item) => item.id !== id));
+  };
+
+  const updateCantidad = (id, cantidad) => {
+    if (cantidad <= 0) {
+      removeFromCart(id);
+      return;
+    }
+    setCart((previous) => previous.map((item) => (item.id === id ? { ...item, cantidad } : item)));
   };
 
   const clearCart = () => setCart([]);
-
-  const total = cart.reduce((acc, item) => acc + (item.precio || 0) * item.cantidad, 0);
+  const totalItems = cart.reduce((total, item) => total + item.cantidad, 0);
+  const totalPrecio = cart.reduce((total, item) => total + (item.precio || 0) * item.cantidad, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, total }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateCantidad,
+        clearCart,
+        totalItems,
+        totalPrecio,
+        total: totalPrecio,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -44,13 +65,7 @@ export const CartProvider = ({ children }) => {
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    return {
-      cart: [],
-      addToCart: () => {},
-      removeFromCart: () => {},
-      clearCart: () => {},
-      total: 0
-    };
+    throw new Error('useCart debe ser usado dentro de un CartProvider');
   }
   return context;
 };
