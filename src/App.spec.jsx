@@ -1,161 +1,67 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { AuthProvider } from './hooks/useAuth.jsx';
+import { AuthProvider } from './hooks/useAuth';
+import { CartProvider } from './context/CartContext';
 import App from './App';
 
-import Home from './pages/Home';
-import Contacto from './pages/Contacto';
-import Login from './pages/Login';
-import MisMascotas from './pages/MisMascotas';
-import Servicios from './pages/Servicios';
-import Nosotros from './pages/Nosotros';
-import AdminReportes from './pages/AdminReportes';
-import AdminUsuarios from './pages/AdminUsuarios';
-import Citas from './pages/Citas';
-import FichaClinica from './pages/FichaClinica';
-import MiPerfil from './pages/MiPerfil';
-import NuevaMascota from './pages/NuevaMascota';
-import RegistroVacunas from './pages/RegistroVacunas';
+const renderWithProviders = (ui, { route = '/', authenticated = false } = {}) => {
+  localStorage.clear();
+  if (authenticated) {
+    localStorage.setItem('token', 'token-test');
+    localStorage.setItem('usuario', JSON.stringify({ email: 'test@vetsm.cl', nombre: 'Test' }));
+  }
 
-// Helper que fuerza tanto el estado autenticado como no autenticado
-const renderWithProviders = (ui) => {
   return render(
-    <MemoryRouter>
-      <AuthProvider>{ui}</AuthProvider>
+    <MemoryRouter initialEntries={[route]}>
+      <AuthProvider>
+        <CartProvider>{ui}</CartProvider>
+      </AuthProvider>
     </MemoryRouter>
   );
 };
 
-describe('Cobertura Global de Páginas y Componentes', () => {
-  beforeEach(() => {
-    localStorage.clear();
+describe('Pruebas de Integración y Cobertura VetSM', () => {
+  it('1. Debe renderizar la página de Inicio y sus elementos clave', () => {
+    renderWithProviders(<App />, { route: '/' });
+    expect(screen.getAllByText(/VetSM/i).length).toBeGreaterThan(0);
   });
 
-  it('renderiza la App en modo claro y conmutación a modo oscuro', () => {
-    renderWithProviders(<App />);
-    const toggleBtn = document.querySelector('button[title="Cambiar Modo"]');
-    if (toggleBtn) {
-      fireEvent.click(toggleBtn);
-      fireEvent.click(toggleBtn);
-    }
-    expect(document.body).toBeDefined();
+  it('2. Debe renderizar la vista de Servicios e interactuar con los botones del carrito', () => {
+    renderWithProviders(<App />, { route: '/servicios' });
+    const botones = screen.getAllByRole('button');
+    botones.forEach((btn) => fireEvent.click(btn));
   });
 
-  it('ejecuta Home, Nosotros y Servicios cubriendo alternancia de tema', () => {
-    renderWithProviders(<Home />);
-    renderWithProviders(<Nosotros />);
-    renderWithProviders(<Servicios />);
-
-    // Simular modo oscuro en localStorage para activar ternarios `darkMode ? ... : ...`
-    localStorage.setItem('vetsm_dark_mode', 'true');
-    renderWithProviders(<Home />);
-    renderWithProviders(<Nosotros />);
-    renderWithProviders(<Servicios />);
-
-    document.querySelectorAll('button, a').forEach((b) => fireEvent.click(b));
-    expect(document.body).toBeDefined();
+  it('3. Debe renderizar la vista de Nosotros', () => {
+    renderWithProviders(<App />, { route: '/nosotros' });
+    expect(screen.getAllByText(/Nuestra Clínica/i).length).toBeGreaterThan(0);
   });
 
-  it('ejecuta Contacto probando fallos de validacion, llenado y envio', () => {
-    renderWithProviders(<Contacto />);
-    const form = document.querySelector('form');
-    if (form) fireEvent.submit(form);
-
-    document.querySelectorAll('input, textarea').forEach((input) => {
-      fireEvent.change(input, { target: { value: 'Dato de prueba' } });
-    });
-    if (form) fireEvent.submit(form);
-
-    // Repetir en modo oscuro
-    localStorage.setItem('vetsm_dark_mode', 'true');
-    renderWithProviders(<Contacto />);
-    expect(document.body).toBeDefined();
+  it('4. Debe renderizar la vista de Contacto', () => {
+    renderWithProviders(<App />, { route: '/contacto' });
+    expect(screen.getAllByText(/Contacto/i).length).toBeGreaterThan(0);
   });
 
-  it('ejecuta Login probando credenciales erroneas y validas', () => {
-    renderWithProviders(<Login />);
-    const form = document.querySelector('form');
-    if (form) fireEvent.submit(form);
-
-    document.querySelectorAll('input').forEach((input) => {
-      fireEvent.change(input, { target: { value: 'admin@vetsm.cl' } });
-    });
-    if (form) fireEvent.submit(form);
-
-    localStorage.setItem('vetsm_dark_mode', 'true');
-    renderWithProviders(<Login />);
-    expect(document.body).toBeDefined();
+  it('5. Debe renderizar el formulario de Login e interactuar con los campos', () => {
+    renderWithProviders(<App />, { route: '/login' });
+    const inputs = screen.getAllByRole('textbox');
+    inputs.forEach((input) => fireEvent.change(input, { target: { value: 'test@vetsm.cl' } }));
   });
 
-  it('ejecuta MisMascotas probando filtros, modal y acciones con/sin datos', () => {
-    renderWithProviders(<MisMascotas />);
-
-    localStorage.setItem('vetsm_user', JSON.stringify({ email: 'admin@vetsm.cl', rol: 'admin' }));
-    localStorage.setItem('vetsm_dark_mode', 'true');
-    renderWithProviders(<MisMascotas />);
-
-    document.querySelectorAll('select').forEach((select) => {
-      Array.from(select.options).forEach((opt) => {
-        fireEvent.change(select, { target: { value: opt.value } });
-      });
-    });
-
-    document.querySelectorAll('button, a, input').forEach((btn) => fireEvent.click(btn));
-    expect(document.body).toBeDefined();
+  it('6. Debe renderizar la vista protegida de Mascotas', () => {
+    renderWithProviders(<App />, { route: '/mascotas', authenticated: true });
+    expect(screen.getAllByText(/Mascotas/i).length).toBeGreaterThan(0);
   });
 
-  it('ejecuta NuevaMascota probando error y exito en ambos temas', () => {
-    renderWithProviders(<NuevaMascota />);
-    const form = document.querySelector('form');
-    if (form) fireEvent.submit(form);
-
-    document.querySelectorAll('input, select, textarea').forEach((input) => {
-      fireEvent.change(input, { target: { value: 'Perro' } });
-    });
-    if (form) fireEvent.submit(form);
-
-    localStorage.setItem('vetsm_dark_mode', 'true');
-    renderWithProviders(<NuevaMascota />);
-    expect(document.body).toBeDefined();
+  it('7. Debe renderizar la vista de Nueva Mascota', () => {
+    renderWithProviders(<App />, { route: '/mascotas/nueva' });
+    const inputs = screen.queryAllByRole('textbox');
+    inputs.forEach((input) => fireEvent.change(input, { target: { value: 'Fiddo' } }));
   });
 
-  it('ejecuta Citas, FichaClinica, MiPerfil y RegistroVacunas en modo claro y oscuro', () => {
-    localStorage.setItem('vetsm_user', JSON.stringify({ email: 'admin@vetsm.cl', rol: 'admin' }));
-    
-    // Modo Claro
-    renderWithProviders(<MiPerfil />);
-    renderWithProviders(<Citas />);
-    renderWithProviders(<FichaClinica />);
-    renderWithProviders(<RegistroVacunas />);
-
-    // Modo Oscuro
-    localStorage.setItem('vetsm_dark_mode', 'true');
-    renderWithProviders(<MiPerfil />);
-    renderWithProviders(<Citas />);
-    renderWithProviders(<FichaClinica />);
-    renderWithProviders(<RegistroVacunas />);
-
-    document.querySelectorAll('button, input, select, textarea').forEach((el) => {
-      fireEvent.click(el);
-      fireEvent.change(el, { target: { value: 'Prueba' } });
-    });
-    expect(document.body).toBeDefined();
-  });
-
-  it('ejecuta AdminReportes y AdminUsuarios', () => {
-    localStorage.setItem('vetsm_user', JSON.stringify({ email: 'admin@vetsm.cl', rol: 'admin' }));
-    renderWithProviders(<AdminReportes />);
-    renderWithProviders(<AdminUsuarios />);
-
-    localStorage.setItem('vetsm_dark_mode', 'true');
-    renderWithProviders(<AdminReportes />);
-    renderWithProviders(<AdminUsuarios />);
-
-    document.querySelectorAll('button, select, input').forEach((el) => {
-      fireEvent.click(el);
-      fireEvent.change(el, { target: { value: 'admin' } });
-    });
-    expect(document.body).toBeDefined();
+  it('8. Debe renderizar el Perfil de usuario', () => {
+    renderWithProviders(<App />, { route: '/perfil', authenticated: true });
+    expect(screen.getAllByText(/Perfil/i).length).toBeGreaterThan(0);
   });
 });

@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -136,7 +136,19 @@
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,9 +165,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,6 +236,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
+import { CartProvider } from './context/CartContext';
 &nbsp;
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -224,63 +249,74 @@ import Login from './pages/Login';
 import MisMascotas from './pages/MisMascotas';
 import NuevaMascota from './pages/NuevaMascota';
 import MiPerfil from './pages/MiPerfil';
+import Citas from './pages/Citas';
 &nbsp;
 export default function App() {
-  const { isLoggedIn, login, logout, darkMode, toggleDarkMode } = useAuth();
+  const { isLoggedIn, logout, darkMode, toggleDarkMode } = useAuth();
 &nbsp;
   return (
-    &lt;Routes&gt;
-      &lt;Route
-        element={
-          &lt;Layout
-            darkMode={darkMode}
-            toggleDarkMode={toggleDarkMode}
-            isLoggedIn={isLoggedIn}
-            logout={logout}
+    &lt;CartProvider&gt;
+      &lt;Routes&gt;
+        &lt;Route
+          element={
+            &lt;Layout
+              darkMode={darkMode}
+              toggleDarkMode={toggleDarkMode}
+              isLoggedIn={isLoggedIn}
+              logout={logout}
+            /&gt;
+          }
+        &gt;
+          &lt;Route index element={&lt;Home darkMode={darkMode} /&gt;} /&gt;
+          &lt;Route path="nosotros" element={&lt;Nosotros darkMode={darkMode} /&gt;} /&gt;
+          &lt;Route path="servicios" element={&lt;Servicios darkMode={darkMode} /&gt;} /&gt;
+          &lt;Route path="contacto" element={&lt;Contacto darkMode={darkMode} /&gt;} /&gt;
+&nbsp;
+          &lt;Route
+            path="login"
+            element={
+              isLoggedIn ? &lt;Navigate to="/mascotas" replace /&gt; : &lt;Login darkMode={darkMode} /&gt;
+            }
           /&gt;
-        }
-      &gt;
-        &lt;Route index element={&lt;Home darkMode={darkMode} /&gt;} /&gt;
-        &lt;Route path="nosotros" element={&lt;Nosotros darkMode={darkMode} /&gt;} /&gt;
-        &lt;Route path="servicios" element={&lt;Servicios darkMode={darkMode} /&gt;} /&gt;
-        &lt;Route path="contacto" element={&lt;Contacto darkMode={darkMode} /&gt;} /&gt;
 &nbsp;
-        &lt;Route
-          path="login"
-          element={
-            isLoggedIn ? <span class="branch-0 cbranch-no" title="branch not covered" >&lt;Navigate to="/mascotas" replace /&gt; </span>: &lt;Login onLogin={login} darkMode={darkMode} /&gt;
-          }
-        /&gt;
+          {/* Rutas Privadas / Protegidas */}
+          &lt;Route
+            path="mascotas"
+            element={
+              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+                &lt;MisMascotas darkMode={darkMode} /&gt;
+              &lt;/ProtectedRoute&gt;
+            }
+          /&gt;
+          &lt;Route
+            path="mascotas/nueva"
+            element={
+              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+                &lt;NuevaMascota darkMode={darkMode} /&gt;
+              &lt;/ProtectedRoute&gt;
+            }
+          /&gt;
+          &lt;Route
+            path="perfil"
+            element={
+              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+                &lt;MiPerfil darkMode={darkMode} /&gt;
+              &lt;/ProtectedRoute&gt;
+            }
+          /&gt;
+          &lt;Route
+            path="citas"
+            element={
+              &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
+                &lt;Citas darkMode={darkMode} /&gt;
+              &lt;/ProtectedRoute&gt;
+            }
+          /&gt;
 &nbsp;
-        {/* Rutas Privadas / Protegidas */}
-        &lt;Route
-          path="mascotas"
-          element={
-            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
-              &lt;MisMascotas darkMode={darkMode} /&gt;
-            &lt;/ProtectedRoute&gt;
-          }
-        /&gt;
-        &lt;Route
-          path="mascotas/nueva"
-          element={
-            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
-              &lt;NuevaMascota darkMode={darkMode} /&gt;
-            &lt;/ProtectedRoute&gt;
-          }
-        /&gt;
-        &lt;Route
-          path="perfil"
-          element={
-            &lt;ProtectedRoute isLoggedIn={isLoggedIn}&gt;
-              &lt;MiPerfil darkMode={darkMode} /&gt;
-            &lt;/ProtectedRoute&gt;
-          }
-        /&gt;
-&nbsp;
-        &lt;Route path="*" element={&lt;Navigate to="/" replace /&gt;} /&gt;
-      &lt;/Route&gt;
-    &lt;/Routes&gt;
+          &lt;Route path="*" element={&lt;Navigate to="/" replace /&gt;} /&gt;
+        &lt;/Route&gt;
+      &lt;/Routes&gt;
+    &lt;/CartProvider&gt;
   );
 }</pre></td></tr></table></pre>
 
@@ -289,7 +325,7 @@ export default function App() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-11T02:44:38.488Z
+                at 2026-10-27T17:10:55.739Z
             </div>
         <script src="../prettify.js"></script>
         <script>

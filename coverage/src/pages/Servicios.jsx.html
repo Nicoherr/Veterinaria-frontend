@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
@@ -108,35 +108,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,46 +142,48 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
-import { Link } from 'react-router-dom';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState } from 'react';
+import { useCart } from '../context/CartContext';
+import CarritoModal from '../components/CarritoModal';
 &nbsp;
-export default function Servicios({ darkMode }) {
-  const servicios = [
-    { id: 1, titulo: 'Consulta General', desc: 'Evaluación física completa, diagnóstico y receta médica.', icono: '🩺', precio: '$25.000' },
-    { id: 2, titulo: 'Vacunación y Desparasitación', desc: 'Vacunas óctuple, triple felina, antirrábica y desparasitación interna/externa.', icono: '💉', precio: '$18.000' },
-    { id: 3, titulo: 'Cirugía General', desc: 'Esterilizaciones, limpieza dental por ultrasonido y cirugías de tejido blando.', icono: '✂️', precio: 'Desde $60.000' },
-    { id: 4, titulo: 'Exámenes de Laboratorio', desc: 'Hemogramas, perfil bioquímico, urianálisis y test de enfermedades infecciosas.', icono: '🔬', precio: '$20.000' },
+export default function Servicios() {
+  const { addToCart, cart } = useCart();
+  const [modalOpen, setModalOpen] = useState(false);
+&nbsp;
+  const listaServicios = [
+    { id: 'serv-1', nombre: 'Consulta Veterinaria General', precio: 25000 },
+    { id: 'serv-2', nombre: 'Vacunación Antirrábica', precio: 18000 },
+    { id: 'serv-3', nombre: 'Desparasitación Interna/Externa', precio: 15000 },
+    { id: 'serv-4', nombre: 'Perfil Bioquímico / Exámenes', precio: 32000 }
   ];
 &nbsp;
-  const cardClass = darkMode ? <span class="branch-0 cbranch-no" title="branch not covered" >'bg-dark text-white border-secondary h-100' </span>: 'bg-white text-dark border-light-subtle h-100';
-&nbsp;
   return (
-    &lt;div className="py-2"&gt;
-      &lt;div className="text-center mb-5"&gt;
-        &lt;h1 className="fw-bold text-primary"&gt;Servicios Médicos&lt;/h1&gt;
-        &lt;p className="text-secondary lead"&gt;Cuidado profesional adaptado a las necesidades de tu mascota.&lt;/p&gt;
+    &lt;div className="container py-4"&gt;
+      &lt;div className="d-flex justify-content-between align-items-center mb-4"&gt;
+        &lt;h2&gt;Servicios Médicos&lt;/h2&gt;
+        &lt;button className="btn btn-outline-primary" onClick={() =&gt; setModalOpen(true)}&gt;
+          Ver Carrito ({cart.reduce((a, b) =&gt; a + b.cantidad, 0)})
+        &lt;/button&gt;
       &lt;/div&gt;
 &nbsp;
-      &lt;div className="row g-4"&gt;
-        {servicios.map((s) =&gt; (
-          &lt;div key={s.id} className="col-md-6"&gt;
-            &lt;div className={`card p-4 shadow-sm ${cardClass}`}&gt;
-              &lt;div className="d-flex align-items-center mb-3"&gt;
-                &lt;span className="fs-2 me-3"&gt;{s.icono}&lt;/span&gt;
-                &lt;div&gt;
-                  &lt;h3 className="h5 fw-bold m-0"&gt;{s.titulo}&lt;/h3&gt;
-                  &lt;span className="badge bg-primary mt-1"&gt;{s.precio}&lt;/span&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-              &lt;p className="text-secondary flex-grow-1"&gt;{s.desc}&lt;/p&gt;
-              &lt;Link to="/contacto" className="btn btn-outline-primary btn-sm w-100 mt-2 fw-semibold"&gt;
-                Agendar este Servicio
-              &lt;/Link&gt;
+      &lt;div className="row"&gt;
+        {listaServicios.map((serv) =&gt; (
+          &lt;div key={serv.id} className="col-md-6 col-lg-3 mb-3"&gt;
+            &lt;div className="card h-100 p-3 shadow-sm"&gt;
+              &lt;h5&gt;{serv.nombre}&lt;/h5&gt;
+              &lt;p className="text-muted"&gt;${serv.precio.toLocaleString('es-CL')} CLP&lt;/p&gt;
+              &lt;button className="btn btn-primary mt-auto" onClick={() =&gt; addToCart(serv)}&gt;
+                Agregar al Carrito
+              &lt;/button&gt;
             &lt;/div&gt;
           &lt;/div&gt;
         ))}
       &lt;/div&gt;
+&nbsp;
+      &lt;CarritoModal isOpen={modalOpen} onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setModalOpen(false)}</span> /&gt;
     &lt;/div&gt;
   );
 }</pre></td></tr></table></pre>
@@ -193,7 +193,7 @@ export default function Servicios({ darkMode }) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-11T02:44:38.488Z
+                at 2026-10-27T17:10:55.739Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

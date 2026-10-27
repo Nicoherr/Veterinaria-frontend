@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { validarLogin } from '../utils/validaciones.js';
+import { apiFetch } from '../services/api.js';
 
 export default function Login() {
   const { login, darkMode } = useAuth();
@@ -14,6 +15,7 @@ export default function Login() {
 
   const [errores, setErrores] = useState({});
   const [errorAuth, setErrorAuth] = useState('');
+  const [enviando, setEnviando] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,17 +26,28 @@ export default function Login() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validarLogin(formData) || {};
     setErrores(errs);
 
     if (Object.keys(errs).length === 0) {
-      const exito = login(formData.email, formData.password);
-      if (exito) {
+      setEnviando(true);
+      setErrorAuth('');
+      try {
+        const data = await apiFetch('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify(formData),
+        });
+        if (!data?.token || !data?.usuario) {
+          throw new Error('La respuesta del servidor no contiene el token y usuario esperados.');
+        }
+        login(data.usuario, data.token);
         navigate('/');
-      } else {
-        setErrorAuth('Credenciales inválidas. Verifica tu correo y contraseña.');
+      } catch (error) {
+        setErrorAuth(error.message || 'No fue posible iniciar sesión. Inténtalo nuevamente.');
+      } finally {
+        setEnviando(false);
       }
     }
   };
@@ -100,8 +113,8 @@ export default function Login() {
                   )}
                 </div>
 
-                <button type="submit" className="btn btn-primary w-100 fw-bold py-2">
-                  Ingresar
+                <button type="submit" className="btn btn-primary w-100 fw-bold py-2" disabled={enviando}>
+                  {enviando ? 'Ingresando...' : 'Ingresar'}
                 </button>
               </form>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
+import { CartProvider } from './context/CartContext';
 
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -13,62 +14,73 @@ import Login from './pages/Login';
 import MisMascotas from './pages/MisMascotas';
 import NuevaMascota from './pages/NuevaMascota';
 import MiPerfil from './pages/MiPerfil';
+import Citas from './pages/Citas';
 
 export default function App() {
-  const { isLoggedIn, login, logout, darkMode, toggleDarkMode } = useAuth();
+  const { isLoggedIn, logout, darkMode, toggleDarkMode } = useAuth();
 
   return (
-    <Routes>
-      <Route
-        element={
-          <Layout
-            darkMode={darkMode}
-            toggleDarkMode={toggleDarkMode}
-            isLoggedIn={isLoggedIn}
-            logout={logout}
+    <CartProvider>
+      <Routes>
+        <Route
+          element={
+            <Layout
+              darkMode={darkMode}
+              toggleDarkMode={toggleDarkMode}
+              isLoggedIn={isLoggedIn}
+              logout={logout}
+            />
+          }
+        >
+          <Route index element={<Home darkMode={darkMode} />} />
+          <Route path="nosotros" element={<Nosotros darkMode={darkMode} />} />
+          <Route path="servicios" element={<Servicios darkMode={darkMode} />} />
+          <Route path="contacto" element={<Contacto darkMode={darkMode} />} />
+
+          <Route
+            path="login"
+            element={
+              isLoggedIn ? <Navigate to="/mascotas" replace /> : <Login darkMode={darkMode} />
+            }
           />
-        }
-      >
-        <Route index element={<Home darkMode={darkMode} />} />
-        <Route path="nosotros" element={<Nosotros darkMode={darkMode} />} />
-        <Route path="servicios" element={<Servicios darkMode={darkMode} />} />
-        <Route path="contacto" element={<Contacto darkMode={darkMode} />} />
 
-        <Route
-          path="login"
-          element={
-            isLoggedIn ? <Navigate to="/mascotas" replace /> : <Login onLogin={login} darkMode={darkMode} />
-          }
-        />
+          {/* Rutas Privadas / Protegidas */}
+          <Route
+            path="mascotas"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <MisMascotas darkMode={darkMode} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="mascotas/nueva"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <NuevaMascota darkMode={darkMode} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="perfil"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <MiPerfil darkMode={darkMode} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="citas"
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Citas darkMode={darkMode} />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Rutas Privadas / Protegidas */}
-        <Route
-          path="mascotas"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <MisMascotas darkMode={darkMode} />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="mascotas/nueva"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <NuevaMascota darkMode={darkMode} />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="perfil"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <MiPerfil darkMode={darkMode} />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
-    </Routes>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </CartProvider>
   );
 }

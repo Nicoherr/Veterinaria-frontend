@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { agregarMascota } from '../services/mascotasService';
+import { apiFetch } from '../services/api.js';
 
 export default function NuevaMascota({ darkMode }) {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ export default function NuevaMascota({ darkMode }) {
     microchip: ''
   });
   const [error, setError] = useState('');
+  const [enviando, setEnviando] = useState(false);
 
   const cardClass = darkMode ? 'bg-dark text-white border-secondary' : 'bg-white text-dark border-light-subtle';
   const inputClass = darkMode ? 'bg-secondary text-white border-secondary' : '';
@@ -21,15 +22,26 @@ export default function NuevaMascota({ darkMode }) {
     if (error) setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.nombre.trim() || !formData.raza.trim() || !formData.edad.trim()) {
       setError('Por favor completa todos los campos obligatorios.');
       return;
     }
 
-    agregarMascota(formData);
-    navigate('/mascotas');
+    setEnviando(true);
+    setError('');
+    try {
+      await apiFetch('/mascotas', {
+        method: 'POST',
+        body: JSON.stringify({ ...formData, edad: formData.edad.trim() }),
+      });
+      navigate('/mascotas');
+    } catch (requestError) {
+      setError(requestError.message || 'No fue posible registrar la mascota.');
+    } finally {
+      setEnviando(false);
+    }
   };
 
   return (
@@ -115,7 +127,7 @@ export default function NuevaMascota({ darkMode }) {
 
           <div className="col-12 mt-4">
             <button type="submit" className="btn btn-primary w-100 py-2 fw-bold">
-              Guardar y Registrar
+              {enviando ? 'Guardando...' : 'Guardar y Registrar'}
             </button>
           </div>
         </form>

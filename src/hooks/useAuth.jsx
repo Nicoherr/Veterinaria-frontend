@@ -4,8 +4,27 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('vetsm_user');
-    return savedUser ? JSON.parse(savedUser) : null;
+    const token = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('usuario');
+    if (!token || !savedUser) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      localStorage.removeItem('vetsm_user');
+      return null;
+    }
+
+    try {
+      const parsedUser = JSON.parse(savedUser);
+      if (!parsedUser || typeof parsedUser !== 'object') {
+        throw new Error('Los datos de usuario guardados no son válidos.');
+      }
+      return parsedUser;
+    } catch {
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      localStorage.removeItem('vetsm_user');
+      return null;
+    }
   });
 
   const [darkMode, setDarkMode] = useState(() => {
@@ -28,23 +47,27 @@ export const AuthProvider = ({ children }) => {
     setDarkMode((prev) => !prev);
   };
 
-  const login = (email, password) => {
-    const userData = {
-      email,
-      nombre: email.split('@')[0],
-      rol: email.includes('admin') ? 'admin' : 'cliente',
-    };
+  const login = (userData, token) => {
+    if (!userData || !token) {
+      throw new Error('El inicio de sesión requiere un usuario y un token válidos.');
+    }
     setUser(userData);
-    localStorage.setItem('vetsm_user', JSON.stringify(userData));
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', JSON.stringify(userData));
+    localStorage.removeItem('vetsm_user');
+    localStorage.removeItem('vetsm_perfil');
     return true;
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
     localStorage.removeItem('vetsm_user');
+    localStorage.removeItem('vetsm_perfil');
   };
 
-  const isLoggedIn = !!user;
+  const isLoggedIn = !!user && !!localStorage.getItem('token');
 
   return (
     <AuthContext.Provider
