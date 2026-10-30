@@ -36,3 +36,8 @@ Para correr el conjunto de pruebas unitarias y generar el informe de cobertura:
 
 ```bash
 npm test
+```
+
+### URL del backend
+
+En desarrollo, el frontend usa `http://localhost:8080/api` por defecto. Para apuntarlo a un backend desplegado, define `VITE_API_BASE_URL` al compilar la aplicación, por ejemplo `https://api.ejemplo.cl/api`.

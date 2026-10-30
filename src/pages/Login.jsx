@@ -39,11 +39,14 @@ export default function Login() {
           method: 'POST',
           body: JSON.stringify(formData),
         });
-        if (!data?.token || !data?.usuario) {
-          throw new Error('La respuesta del servidor no contiene el token y usuario esperados.');
+        if (!data?.token || !data?.email) {
+          throw new Error('La respuesta del servidor no contiene los datos de sesión esperados.');
         }
-        login(data.usuario, data.token);
-        navigate('/');
+        login(
+          { email: data.email, nombre: data.nombre, rol: data.rol },
+          data.token
+        );
+        navigate('/mascotas');
       } catch (error) {
         setErrorAuth(error.message || 'No fue posible iniciar sesión. Inténtalo nuevamente.');
       } finally {

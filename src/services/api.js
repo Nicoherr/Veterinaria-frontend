@@ -1,4 +1,5 @@
-export const API_BASE_URL = 'http://localhost:8080/api';
+const configuredApiBaseUrl = import.meta.env?.VITE_API_BASE_URL;
+export const API_BASE_URL = (configuredApiBaseUrl || 'http://localhost:8080/api').replace(/\/+$/, '');
 
 export async function apiFetch(endpoint, options = {}) {
   const token = localStorage.getItem('token');
@@ -16,7 +17,7 @@ export async function apiFetch(endpoint, options = {}) {
     headers,
   });
 
-  if (response.status === 401 || response.status === 403) {
+  if (response.status === 401 && token) {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     localStorage.removeItem('vetsm_user');
