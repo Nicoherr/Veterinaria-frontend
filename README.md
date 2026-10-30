@@ -22,7 +22,7 @@ Sistema web frontend desarrollado en React para la gestión integral de citas, m
 | `/nosotros` | Público | Misión, visión y valores institucionales. |
 | `/servicios` | Público | Listado de atención médica y especialidades. |
 | `/contacto` | Público | Formulario de contacto con validación estricta de inputs. |
-| `/login` | Público | Autenticación tradicional y botones de inicio social (Google / Apple). |
+| `/login` | Público | Autenticación tradicional con correo electrónico y contraseña. |
 | `/mascotas` | **Protegido** | Panel privado para visualizar mascotas registradas, vacunas e historial. |
 
 ---

@@ -4,32 +4,11 @@ import { useCart } from '../context/CartContext';
 
 export default function Carrito({ darkMode }) {
   const { cart, removeFromCart, updateCantidad, clearCart, totalPrecio } = useCart();
-  const [comprado, setComprado] = useState(false);
+  const [pagoNoDisponible, setPagoNoDisponible] = useState(false);
 
   const cardClass = darkMode
     ? 'bg-dark text-white border-secondary'
     : 'bg-white text-dark border-light-subtle';
-
-  const handlePagar = () => {
-    setComprado(true);
-    clearCart();
-  };
-
-  if (comprado) {
-    return (
-      <div className="py-5 text-center">
-        <div className={`card p-5 shadow-sm max-w-md mx-auto ${cardClass}`}>
-          <h2 className="text-success mb-3">🎉 ¡Compra Realizada con Éxito!</h2>
-          <p className="text-secondary">
-            Hemos registrado tu pedido y la reserva de servicios en nuestra clínica.
-          </p>
-          <Link to="/" className="btn btn-primary fw-bold mt-3">
-            Volver al Inicio
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="py-2">
@@ -108,6 +87,14 @@ export default function Carrito({ darkMode }) {
           <div className="col-lg-4">
             <div className={`card shadow-sm p-4 ${cardClass}`}>
               <h3 className="h4 fw-bold mb-3">Resumen del Pedido</h3>
+              <div className="alert alert-info" role="status">
+                El pago en línea aún no está disponible. Este carrito no registra pedidos ni procesa cobros.
+              </div>
+              {pagoNoDisponible && (
+                <p className="small text-secondary" role="alert">
+                  Contacta con la clínica para confirmar disponibilidad y reservar los servicios.
+                </p>
+              )}
               <div className="d-flex justify-content-between mb-2">
                 <span className="text-secondary">Subtotal</span>
                 <span>${totalPrecio.toLocaleString('es-CL')}</span>
@@ -117,10 +104,10 @@ export default function Carrito({ darkMode }) {
                 <span>${totalPrecio.toLocaleString('es-CL')}</span>
               </div>
               <button
-                className="btn btn-success w-100 fw-bold py-2"
-                onClick={handlePagar}
+                className="btn btn-outline-success w-100 fw-bold py-2"
+                onClick={() => setPagoNoDisponible(true)}
               >
-                💳 Confirmar y Pagar
+                💳 Consultar opciones de pago
               </button>
               <button
                 className="btn btn-outline-secondary w-100 fw-semibold mt-2"

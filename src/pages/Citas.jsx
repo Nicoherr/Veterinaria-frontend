@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { apiFetch } from '../services/api.js';
 
 const initialForm = {
-  nombreMascota: '',
-  tipo: '',
+  mascotaId: '',
   fecha: '',
   hora: '',
   motivo: '',
 };
 
+const getTodayDate = () => {
+  const today = new Date();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${today.getFullYear()}-${month}-${day}`;
+};
+
 export default function Citas({ darkMode }) {
   const [citas, setCitas] = useState([]);
+  const [mascotas, setMascotas] = useState([]);
   const [formData, setFormData] = useState(initialForm);
   const [cargando, setCargando] = useState(true);
+  const [cargandoMascotas, setCargandoMascotas] = useState(true);
+  const [errorMascotas, setErrorMascotas] = useState('');
   const [enviando, setEnviando] = useState(false);
   const [eliminando, setEliminando] = useState(null);
   const [error, setError] = useState('');
@@ -42,6 +52,28 @@ export default function Citas({ darkMode }) {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+    apiFetch('/mascotas')
+      .then((data) => {
+        const items = Array.isArray(data) ? data : data?.content ?? data?.data ?? data?.mascotas;
+        if (!Array.isArray(items)) {
+          throw new Error('La respuesta del servidor no contiene una lista de mascotas.');
+        }
+        if (active) setMascotas(items);
+      })
+      .catch((requestError) => {
+        if (active) setErrorMascotas(requestError.message || 'No fue posible cargar tus mascotas.');
+      })
+      .finally(() => {
+        if (active) setCargandoMascotas(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const handleChange = (event) => {
     setFormData((actual) => ({ ...actual, [event.target.name]: event.target.value }));
   };
@@ -54,7 +86,10 @@ export default function Citas({ darkMode }) {
     try {
       await apiFetch('/citas', {
         method: 'POST',
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          mascotaId: Number(formData.mascotaId),
+        }),
       });
       setFormData(initialForm);
       setAgendado(true);
@@ -104,24 +139,34 @@ export default function Citas({ darkMode }) {
 
       <div className={`card p-4 shadow ${cardClass}`}>
         <form onSubmit={handleSubmit} className="row g-3">
+          {errorMascotas && (
+            <div className="col-12">
+              <p className="alert alert-danger mb-0" role="alert">{errorMascotas}</p>
+            </div>
+          )}
           <div className="col-md-6">
-            <label htmlFor="nombreMascota" className="form-label fw-semibold">Nombre de la Mascota *</label>
-            <input id="nombreMascota" name="nombreMascota" type="text" required value={formData.nombreMascota} onChange={handleChange} className={`form-control ${inputClass}`} placeholder="Ej. Max" />
-          </div>
-
-          <div className="col-md-6">
-            <label htmlFor="tipo" className="form-label fw-semibold">Especie / Tipo *</label>
-            <select id="tipo" name="tipo" className={`form-select ${inputClass}`} required value={formData.tipo} onChange={handleChange}>
-              <option value="" disabled>Selecciona...</option>
-              <option value="perro">Perro</option>
-              <option value="gato">Gato</option>
-              <option value="otro">Exótico / Otro</option>
+            <label htmlFor="mascotaId" className="form-label fw-semibold">Mascota *</label>
+            <select
+              id="mascotaId"
+              name="mascotaId"
+              className={`form-select ${inputClass}`}
+              required
+              value={formData.mascotaId}
+              onChange={handleChange}
+              disabled={mascotas.length === 0}
+            >
+              <option value="" disabled>
+                {cargandoMascotas ? 'Cargando mascotas...' : 'Selecciona tu mascota'}
+              </option>
+              {mascotas.map((mascota) => (
+                <option key={mascota.id} value={mascota.id}>{mascota.nombre}</option>
+              ))}
             </select>
           </div>
 
           <div className="col-md-6">
             <label htmlFor="fecha" className="form-label fw-semibold">Fecha de Consulta *</label>
-            <input id="fecha" name="fecha" type="date" required value={formData.fecha} onChange={handleChange} className={`form-control ${inputClass}`} />
+            <input id="fecha" name="fecha" type="date" min={getTodayDate()} required value={formData.fecha} onChange={handleChange} className={`form-control ${inputClass}`} />
           </div>
 
           <div className="col-md-6">
@@ -131,11 +176,21 @@ export default function Citas({ darkMode }) {
 
           <div className="col-12">
             <label htmlFor="motivo" className="form-label fw-semibold">Motivo de la Consulta</label>
-            <textarea id="motivo" name="motivo" rows="3" value={formData.motivo} onChange={handleChange} className={`form-control ${inputClass}`} placeholder="Describa el motivo o síntomas..." />
+            <textarea id="motivo" name="motivo" rows="3" maxLength={500} value={formData.motivo} onChange={handleChange} className={`form-control ${inputClass}`} placeholder="Describa el motivo o síntomas..." />
           </div>
 
           <div className="col-12 mt-4">
-            <button type="submit" className="btn btn-primary w-100 py-2 fw-bold" disabled={enviando}>
+            {!cargandoMascotas && !errorMascotas && mascotas.length === 0 && (
+              <p className="alert alert-info" role="status">
+                Primero registra una mascota para poder agendar una cita.{' '}
+                <Link to="/mascotas/nueva">Registrar mascota</Link>
+              </p>
+            )}
+            <button
+              type="submit"
+              className="btn btn-primary w-100 py-2 fw-bold"
+              disabled={enviando || cargandoMascotas || mascotas.length === 0}
+            >
               {enviando ? 'Agendando...' : 'Confirmar Reserva'}
             </button>
           </div>
@@ -145,7 +200,7 @@ export default function Citas({ darkMode }) {
       <section className="mt-5" aria-labelledby="citas-title">
         <h2 id="citas-title" className="h4 fw-bold">Mis citas</h2>
         {cargando && <p role="status">Cargando citas...</p>}
-        {!cargando && citas.length === 0 && <p className="text-secondary">No tienes citas agendadas.</p>}
+        {!cargando && !error && citas.length === 0 && <p className="text-secondary">No tienes citas agendadas.</p>}
         <div className="d-grid gap-3">
           {citas.map((cita) => (
             <article key={cita.id} className={`card p-3 ${cardClass}`}>

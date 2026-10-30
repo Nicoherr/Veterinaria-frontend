@@ -12,7 +12,7 @@ export default function Contacto() {
   });
 
   const [errores, setErrores] = useState({});
-  const [enviado, setEnviado] = useState(false);
+  const [envioNoDisponible, setEnvioNoDisponible] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,6 +20,7 @@ export default function Contacto() {
       ...prev,
       [name]: value,
     }));
+    setEnvioNoDisponible(false);
 
     if (errores && errores[name]) {
       setErrores((prev) => ({
@@ -35,13 +36,7 @@ export default function Contacto() {
     setErrores(errs);
 
     if (Object.keys(errs).length === 0) {
-      setEnviado(true);
-      setFormData({
-        nombre: '',
-        email: '',
-        telefono: '',
-        mensaje: '',
-      });
+      setEnvioNoDisponible(true);
     }
   };
 
@@ -63,15 +58,16 @@ export default function Contacto() {
                 ¿Tienes dudas o necesitas agendar una atención? Escríbenos y te responderemos a la brevedad.
               </p>
 
-              {enviado && (
-                <div className="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                  ¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.
+              {envioNoDisponible && (
+                <div className="alert alert-warning mb-4" role="alert">
+                  El formulario aún no está conectado al servicio de mensajería; tu mensaje no se envió.
+                  Puedes contactarnos por teléfono o correo usando los datos que aparecen en la página.
                   <button
                     type="button"
                     className="btn-close"
-                    onClick={() => setEnviado(false)}
-                    aria-label="Close"
-                  ></button>
+                    onClick={() => setEnvioNoDisponible(false)}
+                    aria-label="Cerrar aviso"
+                  />
                 </div>
               )}
 

@@ -33,7 +33,7 @@ export default function NuevaMascota() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.nombre.trim() || !formData.raza.trim() || !formData.edad.trim()) {
+    if (!formData.nombre.trim() || !formData.raza.trim() || formData.edad === '') {
       setError('Por favor completa todos los campos obligatorios.');
       return;
     }
@@ -43,7 +43,7 @@ export default function NuevaMascota() {
     try {
       await apiFetch('/mascotas', {
         method: 'POST',
-        body: JSON.stringify({ ...formData, edad: formData.edad.trim() }),
+        body: JSON.stringify({ ...formData, edad: Number(formData.edad) }),
       });
       navigate('/mascotas');
     } catch (requestError) {
@@ -72,9 +72,10 @@ export default function NuevaMascota() {
       <div className={`card p-4 shadow-sm ${cardClass}`}>
         <form onSubmit={handleSubmit} className="row g-3">
           <div className="col-md-6">
-            <label className="form-label fw-semibold">Nombre de la Mascota *</label>
+            <label htmlFor="nombre" className="form-label fw-semibold">Nombre de la Mascota *</label>
             <input
               type="text"
+              id="nombre"
               name="nombre"
               className={`form-control ${inputClass}`}
               placeholder="Ej. Rocky"
@@ -85,8 +86,9 @@ export default function NuevaMascota() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label fw-semibold">Especie / Tipo *</label>
+            <label htmlFor="tipo" className="form-label fw-semibold">Especie / Tipo *</label>
             <select
+              id="tipo"
               name="tipo"
               className={`form-select ${inputClass}`}
               value={formData.tipo}
@@ -99,9 +101,10 @@ export default function NuevaMascota() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label fw-semibold">Raza *</label>
+            <label htmlFor="raza" className="form-label fw-semibold">Raza *</label>
             <input
               type="text"
+              id="raza"
               name="raza"
               className={`form-control ${inputClass}`}
               placeholder="Ej. Poodle / Mestizo"
@@ -112,12 +115,15 @@ export default function NuevaMascota() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label fw-semibold">Edad *</label>
+            <label htmlFor="edad" className="form-label fw-semibold">Edad *</label>
             <input
-              type="text"
+              type="number"
+              id="edad"
               name="edad"
               className={`form-control ${inputClass}`}
-              placeholder="Ej. 1 año / 6 meses"
+              min="0"
+              step="1"
+              placeholder="Edad en años"
               value={formData.edad}
               onChange={handleChange}
               required
@@ -125,9 +131,10 @@ export default function NuevaMascota() {
           </div>
 
           <div className="col-12">
-            <label className="form-label fw-semibold">Número de Microchip</label>
+            <label htmlFor="microchip" className="form-label fw-semibold">Número de Microchip</label>
             <input
               type="text"
+              id="microchip"
               name="microchip"
               className={`form-control ${inputClass}`}
               placeholder="Ej. 982000112233445 (Opcional)"
