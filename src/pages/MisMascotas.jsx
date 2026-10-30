@@ -49,7 +49,7 @@ export default function MisMascotas({ darkMode }) {
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
           <h1 className="h2 fw-bold text-primary mb-1">🐾 Mis Mascotas Registradas</h1>
-          <p className="text-secondary m-0">Historial médico y controles veterinarios al día.</p>
+          <p className="text-secondary m-0">Administra tus pacientes y consulta sus fichas.</p>
         </div>
         <Link to="/mascotas/nueva" className="btn btn-primary fw-semibold">
           ➕ Registrar Nueva Mascota
@@ -87,27 +87,19 @@ export default function MisMascotas({ darkMode }) {
                       <li><strong>Microchip:</strong> {m.microchip || 'Sin registrar'}</li>
                     </ul>
 
-                    <h4 className="h6 text-info fw-bold mb-1">💉 Vacunas</h4>
-                    <ul className="small text-secondary mb-2 ps-3">
-                      {(Array.isArray(m.vacunas) ? m.vacunas : []).map((v, i) => (
-                        <li key={i}>{v}</li>
-                      ))}
-                    </ul>
-
-                    <h4 className="h6 text-info fw-bold mb-1">📋 Historial</h4>
-                    <ul className="small text-secondary ps-3 m-0">
-                      {(Array.isArray(m.historial) ? m.historial : []).map((h, i) => (
-                        <li key={i}>{h.detalle} ({h.fecha})</li>
-                      ))}
-                    </ul>
-                    <button
-                      type="button"
-                      className="btn btn-outline-danger btn-sm mt-3"
-                      disabled={eliminando === m.id}
-                      onClick={() => eliminarMascota(m.id)}
-                    >
-                      {eliminando === m.id ? 'Eliminando...' : 'Eliminar'}
-                    </button>
+                    <div className="d-flex gap-2 mt-3">
+                      <Link to={`/mascotas/${m.id}/ficha`} className="btn btn-outline-primary btn-sm">
+                        Ver ficha clínica
+                      </Link>
+                      <button
+                        type="button"
+                        className="btn btn-outline-danger btn-sm"
+                        disabled={eliminando === m.id}
+                        onClick={() => eliminarMascota(m.id)}
+                      >
+                        {eliminando === m.id ? 'Eliminando...' : 'Eliminar'}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -40,4 +40,8 @@ npm test
 
 ### URL del backend
 
-En desarrollo, el frontend usa `http://localhost:8080/api` por defecto. Para apuntarlo a un backend desplegado, define `VITE_API_BASE_URL` al compilar la aplicación, por ejemplo `https://api.ejemplo.cl/api`.
+En desarrollo, el frontend usa `http://localhost:8080/api` por defecto. Para despliegues, configura la variable de repositorio `VITE_API_BASE_URL` en **Settings → Secrets and variables → Actions → Variables** con la URL pública de la API, incluyendo `/api` (por ejemplo `https://api.ejemplo.cl/api`). El workflow de GitHub Pages no publica el sitio si falta esa variable.
+
+El sitio se publica en `https://nicoherr.github.io/Veterinaria-frontend/` y usa rutas con hash para que la navegación siga funcionando al recargar una página en GitHub Pages. El workflow intenta habilitar Pages; si GitHub rechaza el permiso, habilítalo en **Settings → Pages → Build and deployment → GitHub Actions**.
+
+En producción, configura en el backend `CORS_ALLOWED_ORIGINS=https://nicoherr.github.io`; el valor es el origen del sitio y no incluye la ruta `/Veterinaria-frontend/`.

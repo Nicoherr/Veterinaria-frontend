@@ -35,11 +35,24 @@ jobs:
       - name: Run tests
         run: npm run test:coverage
 
-      - name: Build project
-        run: npm run build
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true
+
+      - name: Validate production API URL
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+        run: |
+          if [ -z "$VITE_API_BASE_URL" ]; then
+            echo "::error::Set the VITE_API_BASE_URL Actions repository variable to the public API URL."
+            exit 1
+          fi
+
+      - name: Build project
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

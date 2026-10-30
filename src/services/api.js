@@ -1,7 +1,13 @@
 const configuredApiBaseUrl = import.meta.env?.VITE_API_BASE_URL;
-export const API_BASE_URL = (configuredApiBaseUrl || 'http://localhost:8080/api').replace(/\/+$/, '');
+const isProduction = import.meta.env?.PROD === true;
+const defaultApiBaseUrl = isProduction ? '' : 'http://localhost:8080/api';
+export const API_BASE_URL = (configuredApiBaseUrl || defaultApiBaseUrl).replace(/\/+$/, '');
 
 export async function apiFetch(endpoint, options = {}) {
+  if (isProduction && !configuredApiBaseUrl) {
+    throw new Error('Configura VITE_API_BASE_URL con la URL pública de la API.');
+  }
+
   const token = localStorage.getItem('token');
   const headers = new Headers(options.headers);
 

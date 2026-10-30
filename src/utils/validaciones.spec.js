@@ -12,9 +12,22 @@ describe('Pruebas unitarias de Validaciones', () => {
     expect(Object.keys(errores).length).toBe(0);
   });
 
+  it('validarLogin debe rechazar un correo con formato inválido', () => {
+    expect(validarLogin({ email: 'no-es-correo', password: '123' }).email).toBe('El email no es válido');
+  });
+
   it('validarContacto debe detectar campos incompletos', () => {
     const errores = validarContacto({});
     expect(errores.nombre).toBeDefined();
     expect(errores.email).toBeDefined();
+  });
+
+  it('validarContacto debe rechazar un correo con formato inválido', () => {
+    expect(validarContacto({
+      nombre: 'Tutor',
+      email: 'no-es-correo',
+      telefono: '123456789',
+      mensaje: 'Consulta',
+    }).email).toBe('El email no es válido');
   });
 });

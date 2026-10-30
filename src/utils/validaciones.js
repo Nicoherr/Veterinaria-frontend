@@ -7,6 +7,7 @@ export const validarContacto = (form = {}) => {
 
   if (!nombre) errores.nombre = 'El nombre es requerido';
   if (!email) errores.email = 'El email es requerido';
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errores.email = 'El email no es válido';
   if (!telefono) errores.telefono = 'El teléfono es requerido';
   if (!mensaje) errores.mensaje = 'El mensaje es requerido';
 
@@ -19,6 +20,7 @@ export const validarLogin = (form = {}) => {
   const password = form && typeof form.password === 'string' ? form.password.trim() : '';
 
   if (!email) errores.email = 'El email es requerido';
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errores.email = 'El email no es válido';
   if (!password) errores.password = 'La contraseña es requerida';
 
   return errores;
