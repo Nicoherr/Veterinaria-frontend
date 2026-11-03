@@ -16,18 +16,17 @@ export default function Contacto() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const updatedFormData = { ...formData, [name]: value };
+    setFormData(updatedFormData);
     setEnvioNoDisponible(false);
 
-    if (errores && errores[name]) {
-      setErrores((prev) => ({
-        ...prev,
-        [name]: null,
-      }));
-    }
+    const errorCampo = validarContacto(updatedFormData)[name];
+    setErrores((prev) => {
+      const siguientes = { ...prev };
+      if (errorCampo) siguientes[name] = errorCampo;
+      else delete siguientes[name];
+      return siguientes;
+    });
   };
 
   const handleSubmit = (e) => {
@@ -86,9 +85,12 @@ export default function Contacto() {
                     value={formData.nombre}
                     onChange={handleChange}
                     placeholder="Ej. Juan Pérez"
+                    autoComplete="name"
+                    aria-invalid={Boolean(errores?.nombre)}
+                    aria-describedby={errores?.nombre ? 'nombre-error' : undefined}
                   />
                   {errores?.nombre && (
-                    <div className="invalid-feedback d-block">{errores.nombre}</div>
+                    <div className="invalid-feedback d-block" id="nombre-error">{errores.nombre}</div>
                   )}
                 </div>
 
@@ -107,9 +109,12 @@ export default function Contacto() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="ejemplo@vetsm.cl"
+                      autoComplete="email"
+                      aria-invalid={Boolean(errores?.email)}
+                      aria-describedby={errores?.email ? 'email-error' : undefined}
                     />
                     {errores?.email && (
-                      <div className="invalid-feedback d-block">{errores.email}</div>
+                      <div className="invalid-feedback d-block" id="email-error">{errores.email}</div>
                     )}
                   </div>
 
@@ -127,9 +132,13 @@ export default function Contacto() {
                       value={formData.telefono}
                       onChange={handleChange}
                       placeholder="+56912345678"
+                      autoComplete="tel"
+                      inputMode="tel"
+                      aria-invalid={Boolean(errores?.telefono)}
+                      aria-describedby={errores?.telefono ? 'telefono-error' : undefined}
                     />
                     {errores?.telefono && (
-                      <div className="invalid-feedback d-block">{errores.telefono}</div>
+                      <div className="invalid-feedback d-block" id="telefono-error">{errores.telefono}</div>
                     )}
                   </div>
                 </div>
@@ -148,9 +157,11 @@ export default function Contacto() {
                     value={formData.mensaje}
                     onChange={handleChange}
                     placeholder="Escribe tu mensaje aquí..."
+                    aria-invalid={Boolean(errores?.mensaje)}
+                    aria-describedby={errores?.mensaje ? 'mensaje-error' : undefined}
                   ></textarea>
                   {errores?.mensaje && (
-                    <div className="invalid-feedback d-block">{errores.mensaje}</div>
+                    <div className="invalid-feedback d-block" id="mensaje-error">{errores.mensaje}</div>
                   )}
                 </div>
 

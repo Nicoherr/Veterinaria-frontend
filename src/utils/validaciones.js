@@ -6,9 +6,20 @@ export const validarContacto = (form = {}) => {
   const mensaje = form && typeof form.mensaje === 'string' ? form.mensaje.trim() : '';
 
   if (!nombre) errores.nombre = 'El nombre es requerido';
+  else if (!/^\p{L}[\p{L}\p{M}\s.'’-]*$/u.test(nombre)) {
+    errores.nombre = 'Ingresa un nombre válido, sin números; se permiten tildes y espacios';
+  }
   if (!email) errores.email = 'El email es requerido';
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errores.email = 'El email no es válido';
+  else if (!/^[^\s@]+@(?:[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?\.)+[A-Z]{2,}$/i.test(email)) {
+    errores.email = 'Ingresa un correo válido, como nombre@dominio.cl';
+  }
   if (!telefono) errores.telefono = 'El teléfono es requerido';
+  else {
+    const telefonoNormalizado = telefono.replace(/[\s()-]/g, '');
+    if (!/^\+?\d{8,15}$/.test(telefonoNormalizado)) {
+      errores.telefono = 'Ingresa un teléfono válido con 8 a 15 dígitos';
+    }
+  }
   if (!mensaje) errores.mensaje = 'El mensaje es requerido';
 
   return errores;

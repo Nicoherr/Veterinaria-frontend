@@ -42,4 +42,26 @@ describe('apiFetch', () => {
     const [, options] = window.fetch.calls.mostRecent().args;
     expect(options.headers.get('Content-Type')).toBe('application/json');
   });
+
+  it('redirige al login de HashRouter preservando la ruta base cuando la API responde 401', async () => {
+    localStorage.setItem('token', 'token-test');
+    window.location.hash = '#/mascotas';
+    spyOn(window, 'fetch').and.returnValue(Promise.resolve({
+      ok: false,
+      status: 401,
+      text: () => Promise.resolve('{"message":"No autorizado"}'),
+    }));
+
+    let requestError;
+    try {
+      await apiFetch('/mascotas');
+    } catch (error) {
+      requestError = error;
+    }
+
+    expect(requestError.message).toBe('No autorizado');
+    expect(window.location.hash).toBe('#/login');
+    expect(localStorage.getItem('token')).toBeNull();
+    window.location.hash = '';
+  });
 });

@@ -46,8 +46,8 @@ export async function apiFetch(endpoint, options = {}) {
   if (response.status === 401 && token) {
     clearAuthStorage();
 
-    if (window.location.pathname !== '/login') {
-      window.location.assign('/login');
+    if (window.location.hash !== '#/login') {
+      window.location.hash = '/login';
     }
   }
 

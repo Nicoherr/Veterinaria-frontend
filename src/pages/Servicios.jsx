@@ -29,6 +29,7 @@ export default function Servicios({ darkMode }) {
       imagenUrl: 'https://images.pexels.com/photos/6235115/pexels-photo-6235115.jpeg?auto=compress&cs=tinysrgb&w=600',
       precioNum: 60000,
       precioTexto: 'Desde $60.000',
+      precioReferencial: true,
     },
     {
       id: 4,
@@ -49,6 +50,7 @@ export default function Servicios({ darkMode }) {
       id: servicio.id,
       nombre: servicio.titulo,
       precio: servicio.precioNum,
+      precioReferencial: servicio.precioReferencial || false,
     });
     setMensaje(`¡"${servicio.titulo}" se agregó al carrito! 🛒`);
     setTimeout(() => setMensaje(''), 3000);
