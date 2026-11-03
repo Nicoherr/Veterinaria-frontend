@@ -2,18 +2,29 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const CartContext = createContext(null);
 
+const readStoredCart = () => {
+  try {
+    if (typeof window === 'undefined') return [];
+    const saved = window.localStorage.getItem('vetsm_cart');
+    if (!saved) return [];
+    const parsed = JSON.parse(saved);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(() => {
-    try {
-      const saved = localStorage.getItem('vetsm_cart');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [cart, setCart] = useState(() => readStoredCart());
 
   useEffect(() => {
-    localStorage.setItem('vetsm_cart', JSON.stringify(cart));
+    try {
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('vetsm_cart', JSON.stringify(cart));
+      }
+    } catch {
+      // Ignoramos errores de almacenamiento si el navegador no lo permite.
+    }
   }, [cart]);
 
   const addToCart = (item) => {
@@ -62,6 +73,7 @@ export const CartProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {

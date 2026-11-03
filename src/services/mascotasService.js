@@ -28,13 +28,32 @@ export const MASCOTAS_INICIALES = [
   }
 ];
 
+const leerMascotasGuardadas = () => {
+  try {
+    if (typeof window === 'undefined') return null;
+    const guardadas = window.localStorage.getItem('vetsm_mascotas');
+    if (!guardadas) return null;
+
+    const parsed = JSON.parse(guardadas);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+};
+
 export function obtenerMascotas() {
-  const guardadas = localStorage.getItem('vetsm_mascotas');
+  const guardadas = leerMascotasGuardadas();
+
   if (!guardadas) {
-    localStorage.setItem('vetsm_mascotas', JSON.stringify(MASCOTAS_INICIALES));
+    try {
+      window.localStorage.setItem('vetsm_mascotas', JSON.stringify(MASCOTAS_INICIALES));
+    } catch {
+      // Ignoramos errores de almacenamiento si el navegador no lo permite.
+    }
     return MASCOTAS_INICIALES;
   }
-  return JSON.parse(guardadas);
+
+  return guardadas;
 }
 
 export function agregarMascota(nuevaMascota) {
@@ -50,7 +69,11 @@ export function agregarMascota(nuevaMascota) {
   };
 
   const listaActualizada = [...mascotas, mascotaConId];
-  localStorage.setItem('vetsm_mascotas', JSON.stringify(listaActualizada));
+  try {
+    window.localStorage.setItem('vetsm_mascotas', JSON.stringify(listaActualizada));
+  } catch {
+    // Ignoramos errores de almacenamiento si el navegador no lo permite.
+  }
   return mascotaConId;
 }
 
