@@ -13,7 +13,7 @@ export default function Layout({ darkMode, toggleDarkMode, isLoggedIn, logout })
         logout={logout}
       />
       
-      <main className="flex-grow-1 container py-4">
+      <main className="flex-grow-1 container py-4 app-main">
         <Outlet />
       </main>
 
