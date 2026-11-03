@@ -64,9 +64,14 @@ export default function Navbar({ darkMode, toggleDarkMode, isLoggedIn, logout })
                 Cerrar Sesión
               </button>
             ) : (
-              <Link className="btn btn-primary" to="/login">
-                Iniciar Sesión
-              </Link>
+              <>
+                <Link className="btn btn-outline-primary" to="/registro">
+                  Crear cuenta
+                </Link>
+                <Link className="btn btn-primary" to="/login">
+                  Iniciar Sesión
+                </Link>
+              </>
             )}
           </div>
         </div>

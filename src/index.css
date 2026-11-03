@@ -10,6 +10,12 @@
   line-height: 1.6;
   --vetsm-primary: #167c68;
   --vetsm-primary-dark: #105b4d;
+  --bs-primary: #167c68;
+  --bs-primary-rgb: 22, 124, 104;
+  --bs-link-color: #167c68;
+  --bs-link-color-rgb: 22, 124, 104;
+  --bs-link-hover-color: #105b4d;
+  --bs-link-hover-color-rgb: 16, 91, 77;
   --vetsm-ink: #172a35;
   --vetsm-muted: #60727a;
   --vetsm-surface: #ffffff;
@@ -245,6 +251,10 @@ a,
   font-size: clamp(1.8rem, 3.5vw, 2.55rem);
   font-weight: 750;
   letter-spacing: -0.04em;
+}
+
+.auth-title {
+  color: var(--vetsm-primary);
 }
 
 .section-description {

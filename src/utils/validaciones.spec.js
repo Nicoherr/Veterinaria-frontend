@@ -1,4 +1,4 @@
-import { validarLogin, validarContacto } from './validaciones.js';
+import { validarLogin, validarContacto, validarRegistro } from './validaciones.js';
 
 describe('Pruebas unitarias de Validaciones', () => {
   it('validarLogin debe retornar errores cuando los campos están vacíos', () => {
@@ -61,5 +61,28 @@ describe('Pruebas unitarias de Validaciones', () => {
       telefono: '123-ABC',
       mensaje: 'Consulta',
     }).telefono).toBe('Ingresa un teléfono válido con 8 a 15 dígitos');
+  });
+
+  it('validarRegistro aplica los límites compatibles con el backend', () => {
+    const errores = validarRegistro({
+      nombre: 'Tutor',
+      email: 'tutor@vetsm.cl',
+      password: 'corta',
+      confirmarPassword: 'distinta',
+    });
+
+    expect(errores.password).toBe('La contraseña debe tener al menos 8 caracteres');
+    expect(errores.confirmarPassword).toBe('Las contraseñas no coinciden');
+  });
+
+  it('validarRegistro acepta datos completos y contraseña confirmada', () => {
+    const errores = validarRegistro({
+      nombre: 'Tutor VetSM',
+      email: 'tutor@vetsm.cl',
+      password: 'clave-segura-123',
+      confirmarPassword: 'clave-segura-123',
+    });
+
+    expect(Object.keys(errores).length).toBe(0);
   });
 });

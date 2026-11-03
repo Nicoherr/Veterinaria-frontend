@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { validarLogin } from '../utils/validaciones.js';
 import { apiFetch } from '../services/api.js';
@@ -65,7 +65,7 @@ export default function Login() {
             }`}
           >
             <div className="card-body p-4">
-              <h2 className="card-title text-center fw-bold mb-4 text-primary">
+              <h2 className="card-title auth-title text-center fw-bold mb-4">
                 Iniciar Sesión
               </h2>
 
@@ -120,6 +120,10 @@ export default function Login() {
                   {enviando ? 'Ingresando...' : 'Ingresar'}
                 </button>
               </form>
+
+              <p className="text-center mt-4 mb-0">
+                ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+              </p>
             </div>
           </div>
         </div>

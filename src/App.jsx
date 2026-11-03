@@ -10,6 +10,7 @@ import Nosotros from './pages/Nosotros';
 import Servicios from './pages/Servicios';
 import Contacto from './pages/Contacto';
 import Login from './pages/Login';
+import Registro from './pages/Registro';
 import MisMascotas from './pages/MisMascotas';
 import NuevaMascota from './pages/NuevaMascota';
 import MiPerfil from './pages/MiPerfil';
@@ -40,6 +41,10 @@ export default function App() {
         <Route
           path="login"
           element={isLoggedIn ? <Navigate to="/mascotas" replace /> : <Login darkMode={darkMode} />}
+        />
+        <Route
+          path="registro"
+          element={isLoggedIn ? <Navigate to="/mascotas" replace /> : <Registro darkMode={darkMode} />}
         />
         <Route
           path="mascotas"

@@ -36,3 +36,34 @@ export const validarLogin = (form = {}) => {
 
   return errores;
 };
+
+export const validarRegistro = (form = {}) => {
+  const errores = {};
+  const nombre = form && typeof form.nombre === 'string' ? form.nombre.trim() : '';
+  const email = form && typeof form.email === 'string' ? form.email.trim() : '';
+  const password = form && typeof form.password === 'string' ? form.password : '';
+  const confirmarPassword = form && typeof form.confirmarPassword === 'string'
+    ? form.confirmarPassword
+    : '';
+
+  if (!nombre) errores.nombre = 'El nombre es requerido';
+  else if (nombre.length > 120) errores.nombre = 'El nombre no puede superar 120 caracteres';
+
+  if (!email) errores.email = 'El email es requerido';
+  else if (!/^[^\s@]+@(?:[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?\.)+[A-Z]{2,}$/i.test(email)) {
+    errores.email = 'Ingresa un correo válido, como nombre@dominio.cl';
+  } else if (email.length > 180) {
+    errores.email = 'El correo no puede superar 180 caracteres';
+  }
+
+  if (!password) errores.password = 'La contraseña es requerida';
+  else if (password.length < 8) errores.password = 'La contraseña debe tener al menos 8 caracteres';
+  else if (password.length > 72) errores.password = 'La contraseña no puede superar 72 caracteres';
+
+  if (!confirmarPassword) errores.confirmarPassword = 'Confirma tu contraseña';
+  else if (password !== confirmarPassword) {
+    errores.confirmarPassword = 'Las contraseñas no coinciden';
+  }
+
+  return errores;
+};

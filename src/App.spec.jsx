@@ -47,6 +47,14 @@ describe('Pruebas de Integración y Cobertura VetSM', () => {
     renderWithProviders(<App />, { route: '/login' });
     const inputs = screen.getAllByRole('textbox');
     inputs.forEach((input) => fireEvent.change(input, { target: { value: 'test@vetsm.cl' } }));
+    expect(screen.getByRole('link', { name: 'Regístrate' }).getAttribute('href')).toBe('/registro');
+  });
+
+  it('muestra la opción de registro desde navegación y permite abrir el formulario', () => {
+    renderWithProviders(<App />, { route: '/registro' });
+    expect(screen.getByRole('heading', { name: 'Crear cuenta' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Crear cuenta' }).getAttribute('href')).toBe('/registro');
+    expect(screen.getByRole('link', { name: 'Inicia sesión' }).getAttribute('href')).toBe('/login');
   });
 
   it('6. Debe renderizar la vista protegida de Mascotas', () => {
