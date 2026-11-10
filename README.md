@@ -45,3 +45,7 @@ En desarrollo, el frontend usa `http://localhost:8080/api` por defecto. Para des
 El sitio se publica en `https://nicoherr.github.io/Veterinaria-frontend/` y usa rutas con hash para que la navegación siga funcionando al recargar una página en GitHub Pages. El workflow intenta habilitar Pages; si GitHub rechaza el permiso, habilítalo en **Settings → Pages → Build and deployment → GitHub Actions**.
 
 En producción, configura en el backend `CORS_ALLOWED_ORIGINS=https://nicoherr.github.io`; el valor es el origen del sitio y no incluye la ruta `/Veterinaria-frontend/`.
+
+### Despliegue de contenedores en EC2
+
+Para el despliegue en EC2, el frontend se construye con `VITE_API_BASE_URL` apuntando a la API pública del backend y se sirve con Nginx en el puerto 80. El repositorio incluye `Dockerfile` y `.dockerignore`; la orquestación de MySQL, backend y frontend está en `docker-compose.aws.yml` del repositorio backend. La guía EC2 contiene los pasos para clonar ambos repositorios como carpetas hermanas y ejecutar Compose.
