@@ -1,0 +1,62 @@
+name: CI/CD VetSM Frontend to EC2
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vetsm-ec2-deploy
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test:coverage
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: http://127.0.0.1:8080/api
+
+  deploy:
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, linux, x64, vetsm-ec2]
+    timeout-minutes: 30
+    steps:
+      - name: Pull both repositories and deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          flock -w 300 /tmp/vetsm-ec2-deploy.lock bash -euo pipefail -c '
+            backend="$HOME/vetsm-app/Veterinaria-backend"
+            frontend="$HOME/vetsm-app/Veterinaria-frontend"
+
+            test -f "$backend/.env"
+            git -C "$backend" pull --ff-only origin main
+            git -C "$frontend" pull --ff-only origin main
+
+            cd "$backend"
+            docker compose -f docker-compose.aws.yml build backend
+            docker compose -f docker-compose.aws.yml build frontend
+            docker compose -f docker-compose.aws.yml up -d
+            docker compose -f docker-compose.aws.yml ps
+          '

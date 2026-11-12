@@ -1,8 +1,7 @@
-name: Deploy VetSM to GitHub Pages
+name: Deploy VetSM to GitHub Pages (manual)
 
 on:
-  push:
-    branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read

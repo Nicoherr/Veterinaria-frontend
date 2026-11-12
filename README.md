@@ -40,11 +40,11 @@ npm test
 
 ### URL del backend
 
-En desarrollo, el frontend usa `http://localhost:8080/api` por defecto. Para despliegues, configura la variable de repositorio `VITE_API_BASE_URL` en **Settings → Secrets and variables → Actions → Variables** con la URL pública de la API, incluyendo `/api` (por ejemplo `https://api.ejemplo.cl/api`). El workflow de GitHub Pages no publica el sitio si falta esa variable.
+En desarrollo, el frontend usa `http://localhost:8080/api` por defecto. El workflow manual de GitHub Pages requiere la variable de repositorio `VITE_API_BASE_URL` en **Settings → Secrets and variables → Actions → Variables**, con la URL pública de la API e incluyendo `/api`. GitHub Pages es un destino separado de la instancia EC2; una API HTTP no puede consumirse desde ese sitio HTTPS por la protección de contenido mixto.
 
-El sitio se publica en `https://nicoherr.github.io/Veterinaria-frontend/` y usa rutas con hash para que la navegación siga funcionando al recargar una página en GitHub Pages. El workflow intenta habilitar Pages; si GitHub rechaza el permiso, habilítalo en **Settings → Pages → Build and deployment → GitHub Actions**.
+El workflow de GitHub Pages se ejecuta manualmente. El despliegue EC2 automatizado se realiza mediante `.github/workflows/deploy-ec2.yml` al hacer push a `main`, después de ejecutar pruebas y build.
 
-En producción, configura en el backend `CORS_ALLOWED_ORIGINS=https://nicoherr.github.io`; el valor es el origen del sitio y no incluye la ruta `/Veterinaria-frontend/`.
+GitHub Pages usa rutas con hash para que la navegación siga funcionando al recargar sus páginas. Si se habilita ese destino, configura el backend con un origen CORS HTTPS y una API HTTPS.
 
 ## Despliegue en EC2 con Docker
 
