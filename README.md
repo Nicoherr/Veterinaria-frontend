@@ -50,10 +50,10 @@ En producción, configura en el backend `CORS_ALLOWED_ORIGINS=https://nicoherr.g
 
 Este repositorio incluye un `Dockerfile` que compila React y sirve los archivos estáticos con Nginx en el puerto 80. El Compose de EC2 está en el repositorio backend, en `docker-compose.aws.yml`; recibe `VITE_API_BASE_URL` durante la compilación y apunta a la API pública.
 
-Clona ambos repositorios como carpetas hermanas dentro de `~/vetsm-app/`, con los nombres `backend` y `frontend`. Desde la raíz de esa carpeta, crea `.env` desde `backend/.env.example`, define la IP pública de EC2 y establece secretos nuevos para MySQL y JWT. Luego levanta el despliegue:
+Clona ambos repositorios como carpetas hermanas dentro de `~/vetsm-app/`, con los nombres `Veterinaria-backend` y `Veterinaria-frontend`. Dentro de `Veterinaria-backend`, crea `.env` desde `.env.example`, define la IP pública de EC2 y establece secretos nuevos para MySQL y JWT. Luego inicia el despliegue desde ese directorio:
 
 ```bash
-docker compose --env-file .env -f backend/docker-compose.aws.yml up --build -d
+docker compose -f docker-compose.aws.yml up --build -d
 ```
 
 El sitio queda en `http://<PUBLIC_IP>/` y la API en `http://<PUBLIC_IP>:8080/api`. La API debe estar accesible desde el navegador para este despliegue; no abras el puerto MySQL `3306` ni el puerto de desarrollo Vite `5173`. La configuración HTTP es solo para demostración: para producción, usa un dominio con HTTPS y restringe los puertos a los clientes necesarios. La IP pública puede cambiar si la instancia se detiene y se inicia de nuevo.
